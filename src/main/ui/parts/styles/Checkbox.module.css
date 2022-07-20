@@ -1,0 +1,25 @@
+.checkbox {
+	appearance: none;
+	width: 16px;
+	height: 16px;
+	border-radius: 3px;
+	border: 1px solid #000;
+	background-color: transparent;
+	cursor: pointer;
+}
+.checkbox:checked {
+	appearance: none;
+	background-color: #000;
+}
+label {
+	position: relative;
+	display: flex;
+	align-items: center;
+	margin-bottom: 5px;
+	cursor: pointer;
+}
+
+.spanClassName {
+	padding-left: 5px;
+	display: block;
+}

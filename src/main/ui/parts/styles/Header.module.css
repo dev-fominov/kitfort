@@ -1,0 +1,15 @@
+.menu {
+	height: 80px;
+	background-color: aqua;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.menu .item:not(:last-child) {
+	margin-right: 20px;
+}
+
+.active {
+	color: #000;
+	font-weight: 700;
+}
