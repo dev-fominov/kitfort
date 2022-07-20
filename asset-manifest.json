@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/kitfort/static/css/main.d26e4631.css",
+    "main.js": "/kitfort/static/js/main.72abfab0.js",
+    "static/js/787.c73cd13a.chunk.js": "/kitfort/static/js/787.c73cd13a.chunk.js",
+    "index.html": "/kitfort/index.html",
+    "main.d26e4631.css.map": "/kitfort/static/css/main.d26e4631.css.map",
+    "main.72abfab0.js.map": "/kitfort/static/js/main.72abfab0.js.map",
+    "787.c73cd13a.chunk.js.map": "/kitfort/static/js/787.c73cd13a.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d26e4631.css",
+    "static/js/main.72abfab0.js"
+  ]
+}
