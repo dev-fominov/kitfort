@@ -7,6 +7,7 @@ import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../bll/store";
 import {useAppSelector} from "../../bll/hooks";
 import Preloader from "../common/utils/Preloader/Preloader";
+import {Header_1} from "../parts/Header_1";
 
 
 export const App = () => {
@@ -27,6 +28,7 @@ export const App = () => {
         return (
             <div className="App">
                 <Header/>
+                <Header_1/>
                 <div className="wrapper">
                     <Pages/>
                 </div>

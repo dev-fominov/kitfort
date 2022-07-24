@@ -3,7 +3,7 @@ import {AppDispatch} from "./store";
 import {Dispatch} from "redux";
 
 const initialState: InitialStateType = {
-    isLoggedIn: false
+    isLoggedIn: true
 }
 
 export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
