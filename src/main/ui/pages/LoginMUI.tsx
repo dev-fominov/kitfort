@@ -11,7 +11,7 @@ import {PATH} from "./Pages";
 import {Navigate, NavLink} from "react-router-dom";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {useDispatch} from "react-redux";
-import {AppDispatch} from "../../bll/store";
+import {AppDispatchType} from "../../bll/store";
 import {useAppSelector} from "../../bll/hooks";
 import {loginTC} from "../../bll/authReducer";
 import {Form, Formik, FormikErrors} from 'formik'
@@ -32,7 +32,7 @@ export const LoginMUI = () => {
     const signUpTitleStyle = {textDecoration: 'none'}
     const textStyle = {marginTop: '30px', color: '#707070'}
 
-    const dispatch = useDispatch<AppDispatch>()
+    const dispatch = useDispatch<AppDispatchType>()
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
     if (isLoggedIn) {
@@ -54,13 +54,13 @@ export const LoginMUI = () => {
                     const errors: FormikErrors<FormValues> = {};
                     if (!values.email) {
                         errors.email = 'Required';
-                    } else if (
-                        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-                    ) {
+                    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
                         errors.email = 'Invalid email address';
                     }
                     if (!values.password) {
-                        errors.password = 'Required'}
+                        errors.password = 'Required'
+                    } else if (values.password.length < 7) {
+                        errors.password = 'Minimum password length of 7 characters'}
                     return errors;
                 }}
                 onSubmit={(values, actions) => {

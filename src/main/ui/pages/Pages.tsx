@@ -1,7 +1,6 @@
 import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { Error404 } from './404'
-import { Login } from './Login'
 import { Logout } from './Logout'
 import { NewPassword } from './NewPassword'
 import { Profile } from './Profile'
