@@ -1,5 +1,4 @@
 import {authAPI, LoginParamsType} from "../api/api";
-import {AppDispatch} from "./store";
 import {Dispatch} from "redux";
 
 const initialState: InitialStateType = {

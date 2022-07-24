@@ -1,4 +1,5 @@
 import axios from "axios"
+import { RegisterValueType } from "../ui/pages/Register"
 
 export const instance = axios.create({
     baseURL: 'http://localhost:7542/2.0/',
@@ -29,13 +30,34 @@ export type logoutResponseType = {
 }
 
 export const authAPI = {
-    login(data:LoginParamsType) {
+    login(data: LoginParamsType) {
         return instance.post<loginResponseType>(`auth/login`, data).then((res) => res.data)
     },
     logout() {
         return instance.delete<logoutResponseType>(`auth/me`).then((res) => res.data)
     },
-    me(){
+    me() {
         return instance.post<loginResponseType>('auth/me', {}).then((res) => res.data)
+    },
+    register(email: string, password: string) {
+        return instance.post<registerResponseType>(`auth/register`, {email, password}).then(res => res.data)
     }
+}
+
+
+type RegisterType = {
+    data: RegisterValueType
+}
+
+type registerResponseType = {
+    created: Date;
+    email: string;
+    isAdmin: boolean;
+    name: string;
+    publicCardPacksCount: number; // количество колод
+    rememberMe: boolean;
+    updated: Date;
+    verified: boolean; // подтвердил ли почту
+    __v: number
+    _id: string;
 }

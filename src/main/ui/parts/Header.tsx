@@ -1,4 +1,3 @@
-import React from 'react'
 import { NavLink } from 'react-router-dom'
 import s from './styles/Header.module.css';
 import { PATH } from '../pages/Pages';
@@ -21,7 +20,7 @@ export const Header = () => {
         <div>
             <div className={s.menu}>
                 <NavLink className={itemActive} to={PATH.LOGIN} >Login</NavLink>
-                <NavLink className={itemActive} to={PATH.LOGOUT} >Logout</NavLink>
+                <NavLink className={itemActive} to={PATH.REGISTER} >Register</NavLink>
                 <NavLink className={itemActive} to={PATH.PROFILE} >Profile</NavLink>
                 <NavLink className={itemActive} to={PATH.RESET_PASSWORD} >Reset Password</NavLink>
                 <NavLink className={itemActive} to={PATH.NEW_PASSWORD} >New password</NavLink>

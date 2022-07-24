@@ -1,5 +1,5 @@
 import {ErrorMessage, Field, Form, Formik, FormikErrors} from 'formik'
-import React, {useState} from 'react'
+import {useState} from 'react'
 import {Navigate, NavLink} from 'react-router-dom'
 import {PATH} from "./Pages"
 import styles from './styles/Login.module.css'
@@ -69,7 +69,7 @@ export const Login = () => {
                     </Form>
                 )}
             </Formik>
-            <NavLink to={PATH.LOGOUT}>Logout</NavLink>
+            <NavLink to={PATH.REGISTER}>Register</NavLink>
         </div>
     )
 }

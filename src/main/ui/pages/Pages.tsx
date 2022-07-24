@@ -1,8 +1,7 @@
-import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { Error404 } from './404'
 import { Login } from './Login'
-import { Logout } from './Logout'
+import { Register } from './Register'
 import { NewPassword } from './NewPassword'
 import { Profile } from './Profile'
 import { ResetPassword } from './ResetPassword'
@@ -11,7 +10,7 @@ import { TestComponent } from './TestComponent'
 
 export const PATH = {
     LOGIN: '/login',
-    LOGOUT: '/logout',
+    REGISTER: '/register',
     PROFILE: '/profile',
     RESET_PASSWORD: '/reset-password',
     NEW_PASSWORD: '/new-password',
@@ -24,7 +23,7 @@ export const Pages = () => {
             <Routes>
                 <Route path={'/'} element={<Navigate to={PATH.LOGIN} />} />
                 <Route path={PATH.LOGIN} element={<Login />} />
-                <Route path={PATH.LOGOUT} element={<Logout />} />
+                <Route path={PATH.REGISTER} element={<Register />} />
                 <Route path={PATH.PROFILE} element={<Profile />} />
                 <Route path={PATH.RESET_PASSWORD} element={<ResetPassword />} />
                 <Route path={PATH.NEW_PASSWORD} element={<NewPassword />} />
