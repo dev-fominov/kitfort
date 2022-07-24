@@ -7,6 +7,7 @@ import { NewPassword } from './NewPassword'
 import { Profile } from './Profile'
 import { ResetPassword } from './ResetPassword'
 import { TestComponent } from './TestComponent'
+import {LoginMUI} from "./LoginMUI";
 
 
 export const PATH = {
@@ -23,7 +24,7 @@ export const Pages = () => {
         <div>
             <Routes>
                 <Route path={'/'} element={<Navigate to={PATH.LOGIN} />} />
-                <Route path={PATH.LOGIN} element={<Login />} />
+                <Route path={PATH.LOGIN} element={<LoginMUI />} />
                 <Route path={PATH.LOGOUT} element={<Logout />} />
                 <Route path={PATH.PROFILE} element={<Profile />} />
                 <Route path={PATH.RESET_PASSWORD} element={<ResetPassword />} />
