@@ -1,15 +1,16 @@
-import { applyMiddleware, combineReducers, legacy_createStore as createStore } from 'redux'
-import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk'
-import { testActionType, testReduser } from './test-reducer';
+import {applyMiddleware, combineReducers, legacy_createStore as createStore} from 'redux'
+import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk'
+import {ActionsType, authReducer} from "./authReducer";
+import {appReducer} from "./appReducer";
 
 export const rootReducer = combineReducers({
-	test: testReduser
+    auth: authReducer,
+    app: appReducer,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
 
-type AppActionsType = testActionType
-
+type AppActionsType = ActionsType
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = ThunkDispatch<RootState, unknown, AppActionsType>
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, AppActionsType>
