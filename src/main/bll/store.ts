@@ -1,7 +1,7 @@
-import {applyMiddleware, combineReducers, legacy_createStore as createStore} from 'redux'
-import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk'
-import {ActionsTypeAuth, authReducer} from "./authReducer";
-import {ActionsTypeApp, appReducer} from "./appReducer";
+import { applyMiddleware, combineReducers, legacy_createStore as createStore } from 'redux'
+import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk'
+import { ActionsTypeAuth, authReducer } from "./authReducer";
+import { ActionsTypeApp, appReducer } from "./appReducer";
 
 export const rootReducer = combineReducers({
     auth: authReducer,
