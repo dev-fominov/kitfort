@@ -4,32 +4,33 @@ import { Header } from '../parts/Header'
 import './App.css'
 import { initializeAppTC } from "../../bll/appReducer";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../bll/store";
+import { AppDispatchType } from "../../bll/store";
 import { useAppSelector } from "../../bll/hooks";
-import Preloader from "../common/utils/Preloader/Preloader";
+import { ErrorSnackbar } from "../common/ErrorSnackbar/ErrorSnackbar";
+import { CircularProgress } from "@mui/material";
 
 
 export const App = () => {
-    const dispatch = useDispatch<AppDispatch>()
+    const dispatch = useDispatch<AppDispatchType>()
     const isInitialized = useAppSelector(state => state.app.isInitialized)
 
     useEffect(() => {
         dispatch(initializeAppTC())
     }, [])
 
-    if (!isInitialized) {
-        return <div
-            style={{ position: 'fixed', top: '30%', textAlign: 'center', width: '100%' }}>
-            <Preloader />
-        </div>
-
-    }
     return (
         <div className="App">
+            <ErrorSnackbar />
             <Header />
-            <div className="wrapper">
-                <Pages />
-            </div>
+            {!isInitialized
+                ? <CircularProgress
+                    sx={{
+                        position: 'fixed',
+                        left: '50%',
+                        top: '50%',
+                        transform: 'translate(-50%,-50%)'
+                    }} />
+                : <div className="wrapper"><Pages /></div>}
         </div>
     )
 }

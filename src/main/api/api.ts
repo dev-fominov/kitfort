@@ -44,11 +44,6 @@ export const authAPI = {
     }
 }
 
-
-type RegisterType = {
-    data: RegisterValueType
-}
-
 type registerResponseType = {
     created: Date;
     email: string;

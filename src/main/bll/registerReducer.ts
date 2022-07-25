@@ -1,14 +1,16 @@
+import { AxiosError } from "axios";
 import { authAPI } from "../api/api";
-import { AppThunk } from "./store";
+import { setAppStatusAC } from "./appReducer";
+import { AppThunkType } from "./store";
 
 const initialState: InitialStateType = {
-	isLoggedIn: false
+	isRegisterIn: false
 }
 
 export const registerReducer = (state: InitialStateType = initialState, action: RegisterActionType): InitialStateType => {
 	switch (action.type) {
-		case 'login/SET-IS-LOGGED-IN':
-			return { ...state, isLoggedIn: action.value }
+		case 'REGISTER':
+			return { ...state, isRegisterIn: action.value }
 		default:
 			return state
 	}
@@ -16,30 +18,30 @@ export const registerReducer = (state: InitialStateType = initialState, action: 
 
 // actions
 export const registerAC = (value: boolean) =>
-	({ type: 'login/SET-IS-LOGGED-IN', value } as const)
+	({ type: 'REGISTER', value } as const)
 
-type RegisterType = {
-	email: string
-	password: string
-}
 // thunks
-export const registerTC = (email: string, password: string): AppThunk => (dispatch) => {
+export const registerTC = (email: string, password: string): AppThunkType => (dispatch) => {
+	dispatch(setAppStatusAC('loading'))
 	authAPI.register(email, password)
 		.then(res => {
-			// dispatch(registerAC(true))
 			console.log(res)
+			dispatch(registerAC(true))
 		})
-		// .catch((e) => {
-		// 	const error = e.response
-		// 		? e.response.data.error
-		// 		: (e.message + ', more details in the console');
-		// 	console.log('Error: ', { ...e })
-		// })
+		.catch((e: AxiosError<{ error: string }>) => {
+			const error = e.response
+				? e.response.data.error
+				: (e.message + ', more details in the console');
+			console.log('Error: ', { ...e })
+		})
+		.finally(()=>{
+			dispatch(setAppStatusAC('succeeded'))
+		})
 }
 
 // types
 export type RegisterActionType = ReturnType<typeof registerAC>
 
 type InitialStateType = {
-	isLoggedIn: boolean
+	isRegisterIn: boolean
 }
