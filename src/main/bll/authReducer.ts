@@ -1,5 +1,5 @@
 import {authAPI, LoginParamsType} from "../api/api";
-import {AppActionsType, AppDispatchType} from "./store";
+import {AppActionsType, AppDispatchType, AppThunkType} from "./store";
 import {setAppErrorAC, setAppStatusAC} from "./appReducer";
 
 const initialState: InitialStateType = {
@@ -20,7 +20,7 @@ export const setIsLoggedInAC = (value: boolean) =>
 
 
 // thunks
-export const loginTC = (data: LoginParamsType) => (dispatch: AppDispatchType) => {
+export const loginTC = (data: LoginParamsType): AppThunkType => (dispatch: AppDispatchType) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.login(data)
         .then(res => {
@@ -37,7 +37,7 @@ export const loginTC = (data: LoginParamsType) => (dispatch: AppDispatchType) =>
         })
 }
 
-export const logoutTC = () => (dispatch: AppDispatchType) => {
+export const logoutTC = (): AppThunkType => (dispatch: AppDispatchType) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.logout()
         .then(res => {
@@ -58,7 +58,7 @@ export const logoutTC = () => (dispatch: AppDispatchType) => {
 
 // types
 
-export type ActionsTypeAuth = ReturnType<typeof setIsLoggedInAC>
+export type AuthActionsType = ReturnType<typeof setIsLoggedInAC>
 type InitialStateType = {
     isLoggedIn: boolean
 }

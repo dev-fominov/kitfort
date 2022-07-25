@@ -1,6 +1,6 @@
 import {authAPI} from '../api/api'
 import {setIsLoggedInAC} from './authReducer'
-import {AppActionsType, AppDispatchType} from "./store";
+import {AppActionsType, AppDispatchType, AppThunkType} from "./store";
 
 const initialState: InitialStateType = {
     status: 'idle',
@@ -35,7 +35,7 @@ export const setAppErrorAC = (error: string | null) => ({type: 'APP/SET-ERROR', 
 export const setAppStatusAC = (status: RequestStatusType) => ({type: 'APP/SET-STATUS', status} as const)
 export const setAppInitializedAC = (value: boolean) => ({type: 'APP/SET-IS-INITIALIED', value} as const)
 
-export const initializeAppTC = () => (dispatch: AppDispatchType) => {
+export const initializeAppTC = (): AppThunkType => (dispatch: AppDispatchType) => {
     authAPI.me()
         .then(res => {
             if (res.name) {
