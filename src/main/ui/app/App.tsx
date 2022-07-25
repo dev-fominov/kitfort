@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import React, {useEffect} from 'react'
 import { Pages } from '../pages/Pages'
 import { Header } from '../parts/Header'
 import './App.css'
@@ -9,7 +9,7 @@ import { useAppSelector } from "../../bll/hooks";
 import { ErrorSnackbar } from "../common/ErrorSnackbar/ErrorSnackbar";
 import { CircularProgress } from "@mui/material";
 import {InfoSnackbar} from "../common/InfoSnackbar/InfoSnackbar";
-
+import {Header_1} from "../parts/Header_1";
 
 export const App = () => {
     const dispatch = useDispatch<AppDispatchType>()
@@ -24,6 +24,7 @@ export const App = () => {
             <InfoSnackbar/>
             <ErrorSnackbar />
             <Header />
+            <Header_1/>
             {!isInitialized
                 ? <CircularProgress
                     sx={{

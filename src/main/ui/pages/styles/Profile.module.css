@@ -1,0 +1,93 @@
+.profile {
+    width: 100%;
+    height: 100vh;
+    background-color: #F9F9FA;
+}
+
+.back_arrow {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding-top: 125px;
+}
+
+.back_arrow a {
+    text-decoration: none;
+    color: #000;
+}
+
+.back_title {
+    margin-left: 20px;
+}
+
+.paper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0 30px 0;
+}
+
+.profile_info {
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 27px;
+}
+
+.avatar_block {
+    position: relative;
+}
+
+.profile_avatar {
+    width: 100px;
+    height: 100px;
+}
+
+.camera {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #808080;
+    border: 1px solid #fff;
+    text-align: center;
+
+    top: 65px;
+    left: 65px;
+    z-index: 1000;
+}
+
+.camera button {
+    border: none;
+    outline: none;
+    background-color: inherit;
+    cursor: pointer;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+}
+
+.camera img {
+    padding-top: 7px;
+}
+
+.profile_name button {
+    border: none;
+    outline: none;
+    background-color: inherit;
+    cursor: pointer;
+}
+
+
+.user_name {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    margin-right: 10px;
+}
+
+.profile_email {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    opacity: 0.5;
+}

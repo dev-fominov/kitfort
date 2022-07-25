@@ -60,12 +60,12 @@ export const initializeAppTC = (): AppThunkType => (dispatch: AppDispatchType) =
 }
 
 export type SetAppErrorActionType = ReturnType<typeof setAppErrorAC>
-export type setAppInfoActionType = ReturnType<typeof setAppInfoAC>
+export type SetAppInfoActionType = ReturnType<typeof setAppInfoAC>
 export type SetAppStatusActionType = ReturnType<typeof setAppStatusAC>
 
 
 export type ActionsTypeApp =
     | SetAppErrorActionType
     | SetAppStatusActionType
-    | setAppInfoActionType
+    | SetAppInfoActionType
     | ReturnType<typeof setAppInitializedAC>

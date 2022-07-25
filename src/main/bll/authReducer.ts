@@ -3,7 +3,7 @@ import {AppActionsType, AppDispatchType, AppThunkType} from "./store";
 import {setAppErrorAC, setAppInfoAC, setAppStatusAC} from "./appReducer";
 
 const initialState: InitialStateType = {
-    isLoggedIn: false
+    isLoggedIn: true
 }
 
 export const authReducer = (state: InitialStateType = initialState, action: AppActionsType): InitialStateType => {
