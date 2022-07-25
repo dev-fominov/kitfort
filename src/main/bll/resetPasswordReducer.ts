@@ -1,6 +1,6 @@
-import {authAPI, resetPasswordParamsType} from "../api/api";
+import {authAPI} from "../api/api";
 import {AppActionsType, AppDispatchType, AppThunkType} from "./store";
-import {setAppErrorAC, setAppStatusAC} from "./appReducer";
+import {setAppErrorAC, setAppInfoAC, setAppStatusAC} from "./appReducer";
 
 const initialState: InitialStateType = {
     email: null,
@@ -32,6 +32,7 @@ export const resetPasswordTC = (email:string): AppThunkType => (dispatch: AppDis
         .then(res => {
             dispatch(setEmailAC(email))
             dispatch(setAppStatusAC('succeeded'))
+            res.info  && dispatch(setAppInfoAC(`We’ve sent an Email with instructions to ${email}`))
         })
         .catch((e) => {
             const error = e.response

@@ -8,6 +8,7 @@ import { AppDispatchType } from "../../bll/store";
 import { useAppSelector } from "../../bll/hooks";
 import { ErrorSnackbar } from "../common/ErrorSnackbar/ErrorSnackbar";
 import { CircularProgress } from "@mui/material";
+import {InfoSnackbar} from "../common/InfoSnackbar/InfoSnackbar";
 
 
 export const App = () => {
@@ -20,6 +21,7 @@ export const App = () => {
 
     return (
         <div className="App">
+            <InfoSnackbar/>
             <ErrorSnackbar />
             <Header />
             {!isInitialized

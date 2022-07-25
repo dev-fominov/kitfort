@@ -1,6 +1,6 @@
 import {authAPI, LoginParamsType} from "../api/api";
 import {AppActionsType, AppDispatchType, AppThunkType} from "./store";
-import {setAppErrorAC, setAppStatusAC} from "./appReducer";
+import {setAppErrorAC, setAppInfoAC, setAppStatusAC} from "./appReducer";
 
 const initialState: InitialStateType = {
     isLoggedIn: false
@@ -23,7 +23,7 @@ export const setIsLoggedInAC = (value: boolean) =>
 export const loginTC = (data: LoginParamsType): AppThunkType => (dispatch: AppDispatchType) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.login(data)
-        .then(res => {
+        .then((res) => {
             dispatch(setIsLoggedInAC(true))
             dispatch(setAppStatusAC('succeeded'))
         })
@@ -40,9 +40,10 @@ export const loginTC = (data: LoginParamsType): AppThunkType => (dispatch: AppDi
 export const logoutTC = (): AppThunkType => (dispatch: AppDispatchType) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.logout()
-        .then(res => {
+        .then((res) => {
                 dispatch(setIsLoggedInAC(false))
                 dispatch(setAppStatusAC('succeeded'))
+                res.info  && dispatch(setAppInfoAC(res.info))
             }
         )
         .catch((e) => {
@@ -52,6 +53,7 @@ export const logoutTC = (): AppThunkType => (dispatch: AppDispatchType) => {
             console.log('Error: ', {...e})
             dispatch(setAppErrorAC(error))
             dispatch(setAppStatusAC('failed'))
+
         })
 }
 

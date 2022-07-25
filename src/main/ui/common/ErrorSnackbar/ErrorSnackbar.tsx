@@ -5,7 +5,7 @@ import {setAppErrorAC} from '../../../bll/appReducer'
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, {AlertProps} from '@mui/material/Alert';
 
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
     ref,
 ) {
@@ -25,10 +25,11 @@ export  function ErrorSnackbar() {
     const isOpen = error != null
 
     return (
-        <Snackbar open={isOpen} autoHideDuration={6000} onClose={handleClose}   anchorOrigin={{ vertical: 'bottom', horizontal: 'center'}}>
+        <Snackbar open={isOpen} autoHideDuration={4000} onClose={handleClose}   anchorOrigin={{ vertical: 'bottom', horizontal: 'center'}}>
             <Alert onClose={handleClose} severity="error" sx={{ width: '100%'}}>
                 {error}
             </Alert>
         </Snackbar>
     );
 }
+
