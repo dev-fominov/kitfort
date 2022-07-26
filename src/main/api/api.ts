@@ -41,6 +41,9 @@ export const authAPI = {
     },
     register(email: string, password: string) {
         return instance.post<registerResponseType>(`auth/register`, {email, password}).then(res => res.data)
+    },
+    setNewPassword(password: string, resetPasswordToken: string) {
+        return instance.post<SetNewPassword>(`/auth/set-new-password`, {password, resetPasswordToken}).then(res => res.data)
     }
 }
 
@@ -55,4 +58,9 @@ type registerResponseType = {
     verified: boolean; // подтвердил ли почту
     __v: number
     _id: string;
+}
+
+type SetNewPassword = {
+    info: string
+    error: string
 }
