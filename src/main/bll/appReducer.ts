@@ -48,6 +48,7 @@ export const initializeAppTC = (): AppThunkType => (dispatch: AppDispatchType) =
 // >>>>>>> origin/login
     authAPI.me()
         .then(res => {
+            console.log(res)
             if (res.name) {
                 dispatch(setIsLoggedInAC(true));
             }
