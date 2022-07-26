@@ -1,4 +1,5 @@
 import axios from "axios"
+import { RegisterValueType } from "../ui/pages/Register"
 
 export const instance = axios.create({
     baseURL: 'http://localhost:7542/2.0/',
@@ -49,6 +50,9 @@ export const authAPI = {
     },
     resetPassword(data: resetPasswordParamsType){
         return instance.post<ResponseType>('auth/forgot', {data}).then((res) => res.data)
+    },
+    setNewPassword(password: string, resetPasswordToken: string) {
+        return instance.post<SetNewPassword>(`/auth/set-new-password`, {password, resetPasswordToken}).then(res => res.data)
     }
 }
 
@@ -63,4 +67,9 @@ type registerResponseType = {
     verified: boolean; // подтвердил ли почту
     __v: number
     _id: string;
+}
+
+type SetNewPassword = {
+    info: string
+    error: string
 }
