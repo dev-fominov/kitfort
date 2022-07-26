@@ -21,6 +21,8 @@ export const Profile = () => {
     const name = useAppSelector(state => state.profile.profile.name)
     const email = useAppSelector(state => state.profile.profile.email)
     const avatar = useAppSelector(state => state.profile.profile.avatar)
+
+    console.log(avatar)
     const dispatch = useDispatch<AppDispatch>()
 
     let [editMode, setEditMode] = useState(false);
@@ -62,8 +64,8 @@ export const Profile = () => {
                     <h3 className={s.profile_info}>Personal information</h3>
 
                     <div className={s.avatar_block}>
-                        {/*<img className={s.profile_avatar} src={avatar ? avatar : avatarDefault} alt="avatar"/>*/}
-                        <img className={s.profile_avatar} src={avatar} alt="avatar"/>
+                        <img className={s.profile_avatar} src={avatar === "https//avatar-url.img" ? avatarDefault : avatar} alt="avatar"/>
+                        {/*<img className={s.profile_avatar} src={avatar} alt="avatar"/>*/}
                         <div className={s.camera}>
                             <button><img src={camera} alt="camera"/></button>
                         </div>

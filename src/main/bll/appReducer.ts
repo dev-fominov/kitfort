@@ -1,6 +1,7 @@
 import {authAPI} from '../api/api'
 import {setIsLoggedInAC} from './authReducer'
 import {AppDispatchType, AppThunk, AppThunkType} from "./store";
+import {setUserDataAC} from "./profileReducer";
 
 const initialState: InitialStateType = {
     status: 'idle',
@@ -50,7 +51,9 @@ export const initializeAppTC = (): AppThunkType => (dispatch: AppDispatchType) =
         .then(res => {
             console.log(res)
             if (res.name) {
+                console.log(res.avatar)
                 dispatch(setIsLoggedInAC(true));
+                dispatch(setUserDataAC(res))
             }
         })
         .catch((e) => {

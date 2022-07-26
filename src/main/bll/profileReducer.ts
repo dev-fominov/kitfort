@@ -25,6 +25,7 @@ export const setNewNameAC = (value: string) =>
 export const setNewNameTC = (value: string) => (dispatch: ThunkDispatch) => {
     authAPI.changeName({name: value, avatar: "https//avatar-url.img"})
         .then(res => {
+            console.log(res.updatedUser.name)
                 dispatch(setNewNameAC(res.updatedUser.name))
             }
         )
