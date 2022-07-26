@@ -1,0 +1,155 @@
+import { Form, Formik } from 'formik'
+import { useAppDispatch, useAppSelector } from '../../bll/hooks'
+import { registerTC, showPasswordAC } from '../../bll/registerReducer'
+import * as Yup from 'yup'
+import Grid from '@mui/material/Grid';
+import { Avatar, Paper, Typography } from "@mui/material";
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import FormControl from '@mui/material/FormControl';
+import FormGroup from '@mui/material/FormGroup';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import { Navigate } from 'react-router-dom';
+import { PATH } from './Pages';
+import { NavLink } from 'react-router-dom';
+import IconButton from '@mui/material/IconButton';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
+const initialValues = { email: '', password: '', password2: '' }
+const validationSchema = Yup.object().shape({
+	email: Yup.string()
+		.email('Invalid email format')
+		.required('Required'),
+	password: Yup.string()
+		.min(7, 'Password must be more than 7 characters...')
+		.required('Required'),
+	password2: Yup.string()
+		.oneOf([Yup.ref('password'), ''], 'Password must match')
+		.min(7, 'Password must be more than 7 characters...')
+		.required('Required'),
+})
+
+export const Register = () => {
+	const dispatch = useAppDispatch()
+	const isRegisterIn = useAppSelector(state => state.register.isRegisterIn)
+	const showPassword = useAppSelector(state => state.register.showPassword)
+
+	if (isRegisterIn) {
+		return <Navigate to={PATH.LOGIN} />
+	}
+
+	const paperStyle = { padding: 30, height: '500px', width: 400, margin: '40px auto' }
+	const avatarStyle = { backgroundColor: '#9c2424' }
+	const btStyle = { marginTop: '70px', borderRadius: '30px' }
+	const signUpTitleStyle = { textDecoration: 'none', marginTop: '30px', display: 'block' }
+
+
+	const onSubmit = (values: RegisterValueType) => {
+		console.log(values)
+		const regEmail = values.email
+		const regPassword = values.password
+		dispatch(registerTC(regEmail, regPassword))
+	}
+
+	const handleClickShowPassword = () => {
+		dispatch(showPasswordAC(!showPassword))
+	}
+
+	return (
+		<Grid>
+			<Paper elevation={10} style={paperStyle}>
+				<Grid container
+					direction="column"
+					justifyContent="center"
+					alignItems="center">
+					<Avatar style={avatarStyle}><GroupAddIcon /></Avatar>
+					<h2>Sign Up</h2>
+				</Grid>
+				<div>
+					<Formik
+						initialValues={initialValues}
+						validationSchema={validationSchema}
+						onSubmit={onSubmit}
+					>
+						{({ values, getFieldProps, errors, touched, isSubmitting }) => (
+							<Form>
+								<FormControl fullWidth>
+									<FormGroup>
+
+										<TextField error={touched.email && !!errors.email}
+											variant="standard"
+											label="Email"
+											placeholder={'Enter email'}
+											fullWidth
+											required
+											helperText={touched.email && errors.email}
+											{...getFieldProps("email")} />
+										<TextField error={touched.password && !!errors.password}
+											type={showPassword ? 'text' : 'password'}
+											variant="standard"
+											label="Password"
+											placeholder={'Enter password'}
+											fullWidth
+											required
+											helperText={touched.password && errors.password}
+											{...getFieldProps("password")}
+											InputProps={{
+												endAdornment: <IconButton
+													aria-label="toggle password visibility"
+													onClick={handleClickShowPassword}
+													edge="end"
+												>
+													{showPassword ? <VisibilityOff /> : <Visibility />}
+												</IconButton>
+											}}
+										/>
+										<TextField error={touched.password2 && !!errors.password2}
+											type={showPassword ? 'text' : 'password'}
+											variant="standard"
+											label="Confirm password"
+											placeholder={'Enter password'}
+											fullWidth
+											required
+											helperText={touched.password2 && errors.password2}
+											{...getFieldProps("password2")}
+											InputProps={{
+												endAdornment: <IconButton
+													aria-label="toggle password visibility"
+													onClick={handleClickShowPassword}
+													edge="end"
+												>
+													{showPassword ? <VisibilityOff /> : <Visibility />}
+												</IconButton>
+											}} />
+
+										<Button type={'submit'}
+											disabled={isSubmitting}
+											variant={'contained'}
+											color={'primary'}
+											style={btStyle}
+											fullWidth>Register</Button>
+									</FormGroup>
+								</FormControl>
+							</Form>
+						)
+						}
+					</Formik>
+					<Grid container
+						direction="column"
+						justifyContent="center"
+						alignItems="center">
+						<Typography>
+							<NavLink style={signUpTitleStyle} to={PATH.LOGIN}> Sign In</NavLink>
+						</Typography>
+					</Grid>
+				</div>
+			</Paper>
+		</Grid>
+	)
+}
+
+export type RegisterValueType = {
+	email: string
+	password: string
+}

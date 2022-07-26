@@ -6,6 +6,7 @@
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
+    "@material-ui/lab": "^4.0.0-alpha.61",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.9.1",
     "@testing-library/jest-dom": "^5.14.1",
@@ -20,6 +21,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/redux": "^3.6.0",
     "@types/redux-thunk": "^2.1.0",
+    "@types/yup": "^0.29.14",
     "axios": "^0.27.2",
     "formik": "^2.2.9",
     "react": "^18.2.0",
