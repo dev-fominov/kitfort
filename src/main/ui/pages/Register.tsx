@@ -1,6 +1,6 @@
-import { Form, Formik } from 'formik'
+import { Form, Formik, FormikProps } from 'formik'
 import { useAppDispatch, useAppSelector } from '../../bll/hooks'
-import { registerTC, showPasswordAC } from '../../bll/registerReducer'
+import { registerTC } from '../../bll/registerReducer'
 import * as Yup from 'yup'
 import Grid from '@mui/material/Grid';
 import { Avatar, Paper, Typography } from "@mui/material";
@@ -15,6 +15,7 @@ import { NavLink } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { useState } from 'react';
 
 const initialValues = { email: '', password: '', password2: '' }
 const validationSchema = Yup.object().shape({
@@ -22,38 +23,43 @@ const validationSchema = Yup.object().shape({
 		.email('Invalid email format')
 		.required('Required'),
 	password: Yup.string()
-		.min(7, 'Password must be more than 7 characters...')
+		.min(8, 'Password must be more than 7 characters...')
 		.required('Required'),
 	password2: Yup.string()
 		.oneOf([Yup.ref('password'), ''], 'Password must match')
-		.min(7, 'Password must be more than 7 characters...')
+		.min(8, 'Password must be more than 7 characters...')
 		.required('Required'),
 })
 
 export const Register = () => {
 	const dispatch = useAppDispatch()
-	const isRegisterIn = useAppSelector(state => state.register.isRegisterIn)
-	const showPassword = useAppSelector(state => state.register.showPassword)
+	const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+	const status = useAppSelector(state => state.app.status)
 
-	if (isRegisterIn) {
-		return <Navigate to={PATH.LOGIN} />
-	}
+	const [showPassword, setShowPassword] = useState<boolean>(false)
 
+	
+	console.log(isLoggedIn)
 	const paperStyle = { padding: 30, height: '500px', width: 400, margin: '40px auto' }
 	const avatarStyle = { backgroundColor: '#9c2424' }
 	const btStyle = { marginTop: '70px', borderRadius: '30px' }
 	const signUpTitleStyle = { textDecoration: 'none', marginTop: '30px', display: 'block' }
 
-
 	const onSubmit = (values: RegisterValueType) => {
-		console.log(values)
+		// console.log(values)
 		const regEmail = values.email
 		const regPassword = values.password
 		dispatch(registerTC(regEmail, regPassword))
 	}
 
 	const handleClickShowPassword = () => {
-		dispatch(showPasswordAC(!showPassword))
+		setShowPassword(!showPassword)
+	}
+
+	console.log(isLoggedIn)
+	
+	if (isLoggedIn) {
+		return <Navigate to={PATH.PROFILE} />
 	}
 
 	return (
@@ -72,68 +78,71 @@ export const Register = () => {
 						validationSchema={validationSchema}
 						onSubmit={onSubmit}
 					>
-						{({ values, getFieldProps, errors, touched, isSubmitting }) => (
-							<Form>
-								<FormControl fullWidth>
-									<FormGroup>
+						{(props: any & FormikProps<FormValues>) => {
+							const { getFieldProps, errors, touched } = props
+							// console.log(getFieldProps())
+							return (
+								<Form>
+									<FormControl fullWidth>
+										<FormGroup>
 
-										<TextField error={touched.email && !!errors.email}
-											variant="standard"
-											label="Email"
-											placeholder={'Enter email'}
-											fullWidth
-											required
-											helperText={touched.email && errors.email}
-											{...getFieldProps("email")} />
-										<TextField error={touched.password && !!errors.password}
-											type={showPassword ? 'text' : 'password'}
-											variant="standard"
-											label="Password"
-											placeholder={'Enter password'}
-											fullWidth
-											required
-											helperText={touched.password && errors.password}
-											{...getFieldProps("password")}
-											InputProps={{
-												endAdornment: <IconButton
-													aria-label="toggle password visibility"
-													onClick={handleClickShowPassword}
-													edge="end"
-												>
-													{showPassword ? <VisibilityOff /> : <Visibility />}
-												</IconButton>
-											}}
-										/>
-										<TextField error={touched.password2 && !!errors.password2}
-											type={showPassword ? 'text' : 'password'}
-											variant="standard"
-											label="Confirm password"
-											placeholder={'Enter password'}
-											fullWidth
-											required
-											helperText={touched.password2 && errors.password2}
-											{...getFieldProps("password2")}
-											InputProps={{
-												endAdornment: <IconButton
-													aria-label="toggle password visibility"
-													onClick={handleClickShowPassword}
-													edge="end"
-												>
-													{showPassword ? <VisibilityOff /> : <Visibility />}
-												</IconButton>
-											}} />
+											<TextField error={touched.email && !!errors.email}
+												variant="standard"
+												label="Email"
+												placeholder={'Enter email'}
+												fullWidth
+												required
+												helperText={touched.email && errors.email}
+												{...getFieldProps("email")} />
+											<TextField error={touched.password && !!errors.password}
+												type={showPassword ? 'text' : 'password'}
+												variant="standard"
+												label="Password"
+												placeholder={'Enter password'}
+												fullWidth
+												required
+												helperText={touched.password && errors.password}
+												{...getFieldProps("password")}
+												InputProps={{
+													endAdornment: <IconButton
+														aria-label="toggle password visibility"
+														onClick={handleClickShowPassword}
+														edge="end"
+													>
+														{showPassword ? <VisibilityOff /> : <Visibility />}
+													</IconButton>
+												}}
+											/>
+											<TextField error={touched.password2 && !!errors.password2}
+												type={showPassword ? 'text' : 'password'}
+												variant="standard"
+												label="Confirm password"
+												placeholder={'Enter password'}
+												fullWidth
+												required
+												helperText={touched.password2 && errors.password2}
+												{...getFieldProps("password2")}
+												InputProps={{
+													endAdornment: <IconButton
+														aria-label="toggle password visibility"
+														onClick={handleClickShowPassword}
+														edge="end"
+													>
+														{showPassword ? <VisibilityOff /> : <Visibility />}
+													</IconButton>
+												}} />
 
-										<Button type={'submit'}
-											disabled={isSubmitting}
-											variant={'contained'}
-											color={'primary'}
-											style={btStyle}
-											fullWidth>Register</Button>
-									</FormGroup>
-								</FormControl>
-							</Form>
-						)
-						}
+											<Button type={'submit'}
+												disabled={status !== 'idle'}
+												variant={'contained'}
+												color={'primary'}
+												style={btStyle}
+												fullWidth>Register</Button>
+										</FormGroup>
+									</FormControl>
+								</Form>
+							)
+						}}
 					</Formik>
 					<Grid container
 						direction="column"
@@ -152,4 +161,10 @@ export const Register = () => {
 export type RegisterValueType = {
 	email: string
 	password: string
+}
+
+interface FormValues {
+	email: string;
+	password: string;
+	password2: string;
 }
