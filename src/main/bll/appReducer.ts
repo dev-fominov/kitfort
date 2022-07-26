@@ -1,6 +1,8 @@
 import {authAPI} from '../api/api'
 import {setIsLoggedInAC} from './authReducer'
 import {AppActionsType, AppDispatchType, AppThunkType} from "./store";
+import {AppDispatchType, AppThunk, AppThunkType} from "./store";
+import {setUserDataAC} from "./profileReducer";
 
 const initialState: InitialStateType = {
     status: 'idle',
@@ -41,11 +43,13 @@ export const setAppStatusAC = (status: RequestStatusType) => ({type: 'APP/SET-ST
 export const setAppInitializedAC = (value: boolean) => ({type: 'APP/SET-IS-INITIALIED', value} as const)
 
 export const initializeAppTC = (): AppThunkType => (dispatch: AppDispatchType) => {
+>>>>>>>>> Temporary merge branch 2
     authAPI.me()
         .then(res => {
             console.log(res)
             if (res.name) {
                 dispatch(setIsLoggedInAC(true));
+                dispatch(setUserDataAC(res))
             }
         })
         .catch((e) => {

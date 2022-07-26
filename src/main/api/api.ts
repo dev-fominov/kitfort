@@ -30,9 +30,19 @@ export type loginResponseType = {
     rememberMe: boolean;
     error?: string;
 }
-export type ResponseType = {
+export type logoutResponseType = {
     info: string
     error?: string
+}
+
+export type ChangeNameResponseType = {
+    updatedUser: loginResponseType
+    error?: string
+}
+
+export type changeName = {
+    name: string
+    avatar: string
 }
 
 export const authAPI = {
@@ -44,6 +54,9 @@ export const authAPI = {
     },
     me() {
         return instance.post<loginResponseType>('auth/me', {}).then((res) => res.data)
+    },
+    changeName(data:changeName) {
+        return instance.put<ChangeNameResponseType>('auth/me', data).then((res) => res.data)
     },
     register(email: string, password: string) {
         return instance.post<registerResponseType>(`auth/register`, {email, password}).then(res => res.data)

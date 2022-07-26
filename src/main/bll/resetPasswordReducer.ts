@@ -32,7 +32,7 @@ export const resetPasswordTC = (email:string): AppThunkType => (dispatch: AppDis
         .then(res => {
             dispatch(setEmailAC(email))
             dispatch(setAppStatusAC('succeeded'))
-            res.info  && dispatch(setAppInfoAC(`We’ve sent an Email with instructions to ${email}`))
+            // res.info  && dispatch(setAppInfoAC(`We’ve sent an Email with instructions to ${email}`))
         })
         .catch((e) => {
             const error = e.response
