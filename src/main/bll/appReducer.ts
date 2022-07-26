@@ -1,7 +1,6 @@
 import {authAPI} from '../api/api'
 import {setIsLoggedInAC} from './authReducer'
 import {AppActionsType, AppDispatchType, AppThunkType} from "./store";
-import {AppDispatchType, AppThunk, AppThunkType} from "./store";
 import {setUserDataAC} from "./profileReducer";
 
 const initialState: InitialStateType = {
@@ -26,24 +25,14 @@ export const appReducer = (state: InitialStateType = initialState, action: AppAc
     }
 }
 
-export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
-export type InitialStateType = {
-    // происходит ли сейчас взаимодействие с сервером
-    status: RequestStatusType
-    // если ошибка какая-то глобальная произойдёт - мы запишем текст ошибки сюда
-    error: string | null
-    info: string | null
-    // true когда приложение проинициализировалось (проверили юзера, настройки получили и т.д.)
-    isInitialized: boolean
-}
-
+// actions
 export const setAppErrorAC = (error: string | null) => ({type: 'APP/SET-ERROR', error} as const)
 export const setAppInfoAC = (info: string | null) => ({type: 'APP/SET-INFO', info} as const)
 export const setAppStatusAC = (status: RequestStatusType) => ({type: 'APP/SET-STATUS', status} as const)
 export const setAppInitializedAC = (value: boolean) => ({type: 'APP/SET-IS-INITIALIED', value} as const)
 
+// thunks
 export const initializeAppTC = (): AppThunkType => (dispatch: AppDispatchType) => {
->>>>>>>>> Temporary merge branch 2
     authAPI.me()
         .then(res => {
             console.log(res)
@@ -57,18 +46,27 @@ export const initializeAppTC = (): AppThunkType => (dispatch: AppDispatchType) =
                 ? e.response.data.error
                 : (e.message + ', more details in the console');
             console.log('Error: ', {...e})
-            dispatch(setAppErrorAC(error))
+            if (e.response.status !== 401) dispatch(setAppErrorAC(error))
         })
         .finally(() => {
             dispatch(setAppInitializedAC(true))
         })
 }
 
+// types
+export type InitialStateType = {
+    // происходит ли сейчас взаимодействие с сервером
+    status: RequestStatusType
+    // если ошибка какая-то глобальная произойдёт - мы запишем текст ошибки сюда
+    error: string | null
+    info: string | null
+    // true когда приложение проинициализировалось (проверили юзера, настройки получили и т.д.)
+    isInitialized: boolean
+}
+export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 export type SetAppErrorActionType = ReturnType<typeof setAppErrorAC>
 export type SetAppInfoActionType = ReturnType<typeof setAppInfoAC>
 export type SetAppStatusActionType = ReturnType<typeof setAppStatusAC>
-
-
 export type ActionsTypeApp =
     | SetAppErrorActionType
     | SetAppStatusActionType

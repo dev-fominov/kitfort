@@ -11,7 +11,7 @@ import avatarDefault from "../assets/img/header/Ellipse.png"
 import camera from "../assets/img/profile/camera.svg"
 import arrow from "../assets/img/profile/back_arrow.svg"
 import {useDispatch} from "react-redux";
-import {AppDispatch} from "../../bll/store";
+import {AppDispatchType} from "../../bll/store";
 import {setNewNameTC} from "../../bll/profileReducer";
 import {logoutTC} from "../../bll/authReducer";
 
@@ -23,7 +23,7 @@ export const Profile = () => {
     const avatar = useAppSelector(state => state.profile.profile.avatar)
 
     console.log(avatar)
-    const dispatch = useDispatch<AppDispatch>()
+    const dispatch = useDispatch<AppDispatchType>()
 
     let [editMode, setEditMode] = useState(false);
     let [title, setTitle] = useState(name);
@@ -64,7 +64,8 @@ export const Profile = () => {
                     <h3 className={s.profile_info}>Personal information</h3>
 
                     <div className={s.avatar_block}>
-                        <img className={s.profile_avatar} src={avatar === "https//avatar-url.img" ? avatarDefault : avatar} alt="avatar"/>
+                        <img className={s.profile_avatar}
+                             src={avatar === "https//avatar-url.img" ? avatarDefault : avatar} alt="avatar"/>
                         {/*<img className={s.profile_avatar} src={avatar} alt="avatar"/>*/}
                         <div className={s.camera}>
                             <button><img src={camera} alt="camera"/></button>

@@ -5,7 +5,7 @@ import {setAppErrorAC, setAppInfoAC, setAppStatusAC} from "./appReducer";
 const initialState: InitialStateType = {
     email: null,
     from: "test-front-admin <ai73a@yandex.by>",
-    message:  `<div style="background-color: #000000; padding: 15px">Password recovery link: <a href='http://localhost:3000/Friday-project#/new-password/$token$'>link</a></div>`,
+    message: `<div style="background-color: #000000; padding: 15px">Password recovery link: <a href='http://localhost:3000/kitfort#/reset-password/$token$'>link</a></div>`,
 }
 
 export const resetPasswordReducer = (state: InitialStateType = initialState, action: AppActionsType): InitialStateType => {
@@ -22,17 +22,17 @@ export const setEmailAC = (email: string) =>
 
 
 // thunks
-export const resetPasswordTC = (email:string): AppThunkType => (dispatch: AppDispatchType) => {
+export const resetPasswordTC = (email: string): AppThunkType => (dispatch: AppDispatchType) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.resetPassword({
         email,
         from: "test-front-admin <ai73a@yandex.by>",
-        message:  `<div style="background-color: #000000; padding: 15px">Password recovery link: <a href='http://localhost:3000/Friday-project#/new-password/$token$'>link</a></div>`,
+        message: `<div style="background-color: #000000; padding: 15px">Password recovery link: <a href='http://localhost:3000/kitfort#/reset-password/$token$'>link</a></div>`,
     })
         .then(res => {
             dispatch(setEmailAC(email))
             dispatch(setAppStatusAC('succeeded'))
-            // res.info  && dispatch(setAppInfoAC(`We’ve sent an Email with instructions to ${email}`))
+            res.info && dispatch(setAppInfoAC(`We’ve sent an Email with instructions to ${email}`))
         })
         .catch((e) => {
             const error = e.response

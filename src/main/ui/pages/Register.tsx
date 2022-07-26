@@ -133,7 +133,7 @@ export const Register = () => {
 												}} />
 
 											<Button type={'submit'}
-												disabled={status !== 'idle'}
+												disabled={status === 'loading'}
 												variant={'contained'}
 												color={'primary'}
 												style={btStyle}

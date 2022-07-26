@@ -18,10 +18,8 @@ export const authReducer = (state: InitialStateType = initialState, action: AppA
 }
 
 // actions
-
 export const setIsLoggedInAC = (value: boolean) =>
     ({type: 'login/SET-IS-LOGGED-IN', value} as const)
-
 
 // thunks
 export const loginTC = (data: LoginParamsType): AppThunkType => (dispatch: AppDispatchType) => {
@@ -40,6 +38,9 @@ export const loginTC = (data: LoginParamsType): AppThunkType => (dispatch: AppDi
             dispatch(setAppErrorAC(error))
             dispatch(setAppStatusAC('failed'))
         })
+        .finally(() => {
+            dispatch(setAppStatusAC('idle'))
+        })
 }
 
 export const logoutTC = (): AppThunkType => (dispatch: AppDispatchType) => {
@@ -48,7 +49,7 @@ export const logoutTC = (): AppThunkType => (dispatch: AppDispatchType) => {
         .then((res) => {
                 dispatch(setIsLoggedInAC(false))
                 dispatch(setAppStatusAC('succeeded'))
-                // res.info  && dispatch(setAppInfoAC(res.info))
+            res.info && dispatch(setAppInfoAC(res.info))
             }
         )
         .catch((e) => {
@@ -59,11 +60,12 @@ export const logoutTC = (): AppThunkType => (dispatch: AppDispatchType) => {
             dispatch(setAppErrorAC(error))
             dispatch(setAppStatusAC('failed'))
         })
+        .finally(() => {
+            dispatch(setAppStatusAC('idle'))
+        })
 }
 
-
 // types
-
 export type AuthActionsType = ReturnType<typeof setIsLoggedInAC>
 type InitialStateType = {
     isLoggedIn: boolean

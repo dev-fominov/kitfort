@@ -27,7 +27,6 @@ interface FormValues {
     rememberMe: boolean
 }
 
-
 export const LoginMUI = () => {
     const paperStyle = {padding: 30, height: '500px', width: 400, margin: '40px auto'}
     const avatarStyle = {backgroundColor: '#9c2424'}
@@ -42,6 +41,7 @@ export const LoginMUI = () => {
     }
     const dispatch = useDispatch<AppDispatchType>()
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+    const status = useAppSelector(state => state.app.status)
 
     if (isLoggedIn) {
         return <Navigate to={PATH.PROFILE}/>
@@ -119,7 +119,7 @@ export const LoginMUI = () => {
                                     </Typography>
                                 </Grid>
                                 <Button type={'submit'}
-                                        disabled={isSubmitting}
+                                        disabled={status === 'loading'}
                                         variant={'contained'}
                                         color={'primary'}
                                         style={btStyle}

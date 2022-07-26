@@ -4,9 +4,7 @@ import { Register } from './Register'
 import { NewPassword } from './NewPassword'
 import { Profile } from './Profile'
 import { ResetPassword } from './ResetPassword'
-import { TestComponent } from './TestComponent'
 import { LoginMUI } from "./LoginMUI";
-
 
 export const PATH = {
     LOGIN: '/login',
@@ -27,7 +25,6 @@ export const Pages = () => {
                 <Route path={PATH.PROFILE} element={<Profile />} />
                 <Route path={PATH.RESET_PASSWORD} element={<ResetPassword />} />
                 <Route path={PATH.NEW_PASSWORD} element={<NewPassword />} />
-                <Route path={PATH.TEST_COMPONENT} element={<TestComponent />} />
                 <Route path={'/*'} element={<Error404 />} />
             </Routes>
         </div>

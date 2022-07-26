@@ -12,8 +12,8 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert
     return <MuiAlert elevation={6} ref={ref} variant="standard" {...props} />;
 });
 
-export  function InfoSnackbar() {
-    const  dispatch =  useDispatch()
+export function InfoSnackbar() {
+    const dispatch = useDispatch()
     const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
@@ -25,8 +25,9 @@ export  function InfoSnackbar() {
     const isOpen = info != null
 
     return (
-        <Snackbar open={isOpen} autoHideDuration={3000} onClose={handleClose}   anchorOrigin={{ vertical: 'bottom', horizontal: 'center'}}>
-            <Alert color="success" onClose={handleClose} severity="success" sx={{ width: '100%'}}>
+        <Snackbar open={isOpen} autoHideDuration={3000} onClose={handleClose}
+                  anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}>
+            <Alert color="success" onClose={handleClose} severity="success" sx={{width: '100%'}}>
                 {info}
             </Alert>
         </Snackbar>
