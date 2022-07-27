@@ -1,21 +1,20 @@
-import { Form, Formik, FormikProps } from 'formik'
-import { useAppDispatch, useAppSelector } from '../../bll/hooks'
-import { registerTC } from '../../bll/registerReducer'
+import {Form, Formik, FormikProps} from 'formik'
+import {useAppDispatch, useAppSelector} from '../../bll/hooks'
+import {registerTC} from '../../bll/registerReducer'
 import * as Yup from 'yup'
 import Grid from '@mui/material/Grid';
-import { Avatar, Paper, Typography } from "@mui/material";
+import {Avatar, Paper, Typography} from "@mui/material";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { Navigate } from 'react-router-dom';
-import { PATH } from './Pages';
-import { NavLink } from 'react-router-dom';
+import {Navigate, NavLink} from 'react-router-dom';
+import {PATH} from './Pages';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { useState } from 'react';
+import {useState} from 'react';
 
 const initialValues = { email: '', password: '', password2: '' }
 const validationSchema = Yup.object().shape({

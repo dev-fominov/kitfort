@@ -9,7 +9,7 @@ import {ErrorSnackbar} from "../common/ErrorSnackbar/ErrorSnackbar";
 import {CircularProgress} from "@mui/material";
 import {InfoSnackbar} from "../common/InfoSnackbar/InfoSnackbar";
 import {HeaderMUI} from '../parts/HeaderMUI';
-import { NavLink } from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import s from "../parts/styles/Header.module.css";
 
 export const App = () => {

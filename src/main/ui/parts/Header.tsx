@@ -7,7 +7,6 @@ import {useDispatch} from "react-redux";
 import {AppDispatchType} from "../../bll/store";
 import {AppBar, Button, IconButton, LinearProgress, Toolbar} from "@mui/material";
 import Grid from "@mui/material/Grid";
-import avatar from "../assets/img/header/Ellipse.png"
 import MemoryIcon from '@mui/icons-material/Memory';
 
 type isActiveType = {

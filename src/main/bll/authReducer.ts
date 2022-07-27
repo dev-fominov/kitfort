@@ -1,6 +1,5 @@
 import {authAPI, LoginParamsType} from "../api/api";
-import {Dispatch} from "redux";
-import {setUserDataAC, SetUserDataACType} from "./profileReducer";
+import {setUserDataAC} from "./profileReducer";
 import {AppActionsType, AppDispatchType, AppThunkType} from "./store";
 import {setAppErrorAC, setAppInfoAC, setAppStatusAC} from "./appReducer";
 

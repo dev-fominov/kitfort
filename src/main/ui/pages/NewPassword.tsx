@@ -9,7 +9,6 @@ import {Navigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../bll/hooks";
 import {Form, Formik} from 'formik'
 // import { resetPasswordTC } from "../../bll/resetPasswordReducer";
-import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 import {newPasswordTC} from '../../bll/registerReducer';
 import * as Yup from 'yup'
 import PasswordIcon from '@mui/icons-material/Password';

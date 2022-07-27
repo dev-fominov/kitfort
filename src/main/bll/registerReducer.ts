@@ -3,6 +3,7 @@ import {authAPI} from "../api/api";
 import {setAppErrorAC, setAppInfoAC, setAppStatusAC} from "./appReducer";
 import {setIsLoggedInAC} from "./authReducer";
 import {AppDispatchType, AppThunkType} from "./store";
+import {setUserDataAC} from "./profileReducer";
 
 const initialState: InitialStateType = {
     isRegisterIn: false
@@ -32,6 +33,7 @@ export const registerTC = (email: string, password: string): AppThunkType => (di
             authAPI.login(data)
                 .then(res => {
                     dispatch(setIsLoggedInAC(true))
+                    dispatch(setUserDataAC(res))
                 })
             dispatch(setAppStatusAC('succeeded'))
         })
