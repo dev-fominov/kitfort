@@ -7,13 +7,13 @@ import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import edit from "../assets/img/profile/edit.svg"
-import avatarDefault from "../assets/img/header/Ellipse.png"
-import camera from "../assets/img/profile/camera.svg"
 import arrow from "../assets/img/profile/back_arrow.svg"
 import {useDispatch} from "react-redux";
 import {AppDispatchType} from "../../bll/store";
-import {setNewNameTC} from "../../bll/profileReducer";
+import {setNewAvatarTC, setNewNameTC} from "../../bll/profileReducer";
 import {logoutTC} from "../../bll/authReducer";
+import {Avatar, IconButton} from '@mui/material';
+import {PhotoCamera} from "@mui/icons-material";
 
 
 export const Profile = () => {
@@ -21,8 +21,6 @@ export const Profile = () => {
     const name = useAppSelector(state => state.profile.profile.name)
     const email = useAppSelector(state => state.profile.profile.email)
     const avatar = useAppSelector(state => state.profile.profile.avatar)
-
-    console.log(avatar)
     const dispatch = useDispatch<AppDispatchType>()
 
     let [editMode, setEditMode] = useState(false);
@@ -48,6 +46,25 @@ export const Profile = () => {
         return <Navigate to={PATH.LOGIN}/>
     }
 
+    const convertToBase64 = (file: Blob) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            };
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
+        });
+    };
+
+    const handleFileUpload = async (e: any) => {
+        const file = e.target.files[0];
+        const base64 = await convertToBase64(file);
+        dispatch(setNewAvatarTC(base64));
+    };
+
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
     }
@@ -64,11 +81,14 @@ export const Profile = () => {
                     <h3 className={s.profile_info}>Personal information</h3>
 
                     <div className={s.avatar_block}>
-                        <img className={s.profile_avatar}
-                             src={avatar === "https//avatar-url.img" ? avatarDefault : avatar} alt="avatar"/>
-                        {/*<img className={s.profile_avatar} src={avatar} alt="avatar"/>*/}
+                        <Avatar style={{backgroundColor: '#1976d2'}}  src={avatar}  sx={{ width: 110, height: 110, }} />
                         <div className={s.camera}>
-                            <button><img src={camera} alt="camera"/></button>
+                            <Avatar  sx={{ width: 35, height: 35, }} >
+                                <IconButton style={{color: 'white'}} aria-label="upload picture" component="label">
+                                    <input hidden accept="image/*" type="file" onChange={e => handleFileUpload(e)}/>
+                                    <PhotoCamera />
+                                </IconButton>
+                            </Avatar>
                         </div>
                     </div>
 
@@ -76,6 +96,7 @@ export const Profile = () => {
                         {
                             editMode
                                 ? <TextField
+                                    variant="standard"
                                     id="outlined-name"
                                     label="Name"
                                     value={title}

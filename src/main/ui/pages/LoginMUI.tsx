@@ -29,7 +29,6 @@ interface FormValues {
 
 export const LoginMUI = () => {
     const paperStyle = {padding: 30, height: '500px', width: 400, margin: '40px auto'}
-    const avatarStyle = {backgroundColor: '#9c2424'}
     const btStyle = {marginTop: '70px', borderRadius: '30px'}
     const forgoPasswordTitleStyle = {textDecoration: 'none', color: 'black'}
     const signUpTitleStyle = {textDecoration: 'none'}
@@ -53,7 +52,7 @@ export const LoginMUI = () => {
                   direction="column"
                   justifyContent="center"
                   alignItems="center">
-                <Avatar style={avatarStyle}><LockOutlinedIcon/></Avatar>
+                <Avatar style={{backgroundColor: '#1976d2'}}><LockOutlinedIcon/></Avatar>
                 <h2>Sign In</h2>
             </Grid>
             <Formik

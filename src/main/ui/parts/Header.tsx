@@ -18,6 +18,7 @@ export const Header = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const status = useAppSelector(state => state.app.status)
     const itemActive = ({isActive}: isActiveType): string => isActive ? `${s.active + ' ' + s.item}` : `${s.item}`
+    const avatar = useAppSelector(state => state.profile.profile.avatar)
     const dispatch = useDispatch<AppDispatchType>()
     const logoutHandler = () => dispatch(logoutTC())
 

@@ -5,7 +5,7 @@ import {setAppErrorAC, setAppInfoAC, setAppStatusAC} from "./appReducer";
 const initialState: InitialStateType = {
     email: null,
     from: "test-front-admin <ai73a@yandex.by>",
-    message: `<div style="background-color: #000000; padding: 15px">Password recovery link: <a href='http://localhost:3000/kitfort#/reset-password/$token$'>link</a></div>`,
+    message: `<div style="padding: 15px">Password recovery link: <a href='http://localhost:3000/kitfort#/new-password/$token$'>link</a></div>`,
 }
 
 export const resetPasswordReducer = (state: InitialStateType = initialState, action: AppActionsType): InitialStateType => {
@@ -26,8 +26,8 @@ export const resetPasswordTC = (email: string): AppThunkType => (dispatch: AppDi
     dispatch(setAppStatusAC('loading'))
     authAPI.resetPassword({
         email,
-        from: "test-front-admin <ai73a@yandex.by>",
-        message: `<div style="background-color: #000000; padding: 15px">Password recovery link: <a href='http://localhost:3000/kitfort#/reset-password/$token$'>link</a></div>`,
+        from: initialState.from,
+        message: initialState.message,
     })
         .then(res => {
             dispatch(setEmailAC(email))

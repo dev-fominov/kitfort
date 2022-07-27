@@ -1,5 +1,4 @@
 import axios from "axios"
-import { RegisterValueType } from "../ui/pages/Register"
 
 export const instance = axios.create({
     baseURL: 'http://localhost:7542/2.0/',
@@ -17,12 +16,12 @@ export const authAPI = {
         return instance.delete<ResponseType>(`auth/me`).then(res => res.data)},
     me() {
         return instance.post<loginResponseType>(`auth/me`, {}).then(res => res.data)},
-    changeName(data:changeName) {
+    changeNameAvatar(data: { name: string; avatar:  unknown | string | undefined}) {
         return instance.put<ChangeNameResponseType>(`auth/me`, data).then(res => res.data)},
     register(email: string, password: string) {
         return instance.post<registerResponseType>(`auth/register`, {email, password}).then(res => res.data)},
     resetPassword(data: resetPasswordParamsType){
-        return instance2.post<ResponseType>(`auth/forgot`, {data}).then(res => res.data)},
+        return instance2.post<ResponseType>(`auth/forgot`, data).then(res => res.data)},
     setNewPassword(password: string, resetPasswordToken: string) {
         return instance.post<SetNewPassword>(`auth/set-new-password`, {password, resetPasswordToken}).then(res => res.data)}
 }
@@ -42,7 +41,7 @@ export type loginResponseType = {
     _id: string;
     email: string;
     name: string;
-    avatar?: string;
+    avatar?: string | undefined;
     publicCardPacksCount: number; // количество колод
     created: Date;
     updated: Date;
@@ -61,7 +60,7 @@ export type ChangeNameResponseType = {
 }
 export type changeName = {
     name: string
-    avatar: string
+    avatar:  unknown | string | undefined
 }
 type registerResponseType = {
     created: Date;

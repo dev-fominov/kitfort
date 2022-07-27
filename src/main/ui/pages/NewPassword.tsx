@@ -5,13 +5,14 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {Avatar, Paper, Typography} from "@mui/material";
 import {PATH} from "./Pages";
-import {Navigate, NavLink} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../bll/hooks";
-import {Form, Formik, FormikErrors} from 'formik'
+import {Form, Formik} from 'formik'
 // import { resetPasswordTC } from "../../bll/resetPasswordReducer";
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 import {newPasswordTC} from '../../bll/registerReducer';
 import * as Yup from 'yup'
+import PasswordIcon from '@mui/icons-material/Password';
 
 interface FormValues {
     password: string
@@ -26,7 +27,6 @@ const validationSchema = Yup.object().shape({
 
 export const NewPassword = () => {
     const paperStyle = {padding: 30, height: '500px', width: 400, margin: '40px auto'}
-    const avatarStyle = {backgroundColor: '#9c2424'}
     const btStyle = {marginTop: '70px', borderRadius: '30px'}
     const textStyle = {marginTop: '30px', color: '#707070'}
 
@@ -50,7 +50,7 @@ export const NewPassword = () => {
                   direction="column"
                   justifyContent="center"
                   alignItems="center">
-                <Avatar style={avatarStyle}><QuestionMarkOutlinedIcon/></Avatar>
+                <Avatar style={{backgroundColor: '#1976d2'}}><PasswordIcon/></Avatar>
                 <h2>Create new password</h2>
             </Grid>
             <Formik

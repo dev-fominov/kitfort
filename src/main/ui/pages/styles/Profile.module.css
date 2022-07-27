@@ -1,7 +1,6 @@
 .profile {
     width: 100%;
     height: 100vh;
-    background-color: #F9F9FA;
 }
 
 .back_arrow {
@@ -51,8 +50,8 @@
     border: 1px solid #fff;
     text-align: center;
 
-    top: 65px;
-    left: 65px;
+    top: 75px;
+    left: 75px;
     z-index: 1000;
 }
 
@@ -75,6 +74,7 @@
     outline: none;
     background-color: inherit;
     cursor: pointer;
+    padding-top: 15px;
 }
 
 

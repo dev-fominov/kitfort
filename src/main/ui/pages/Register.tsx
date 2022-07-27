@@ -41,7 +41,6 @@ export const Register = () => {
 	
 	console.log(isLoggedIn)
 	const paperStyle = { padding: 30, height: '500px', width: 400, margin: '40px auto' }
-	const avatarStyle = { backgroundColor: '#9c2424' }
 	const btStyle = { marginTop: '70px', borderRadius: '30px' }
 	const signUpTitleStyle = { textDecoration: 'none', marginTop: '30px', display: 'block' }
 
@@ -69,7 +68,7 @@ export const Register = () => {
 					direction="column"
 					justifyContent="center"
 					alignItems="center">
-					<Avatar style={avatarStyle}><GroupAddIcon /></Avatar>
+					<Avatar style={{backgroundColor: '#1976d2'}}><GroupAddIcon /></Avatar>
 					<h2>Sign Up</h2>
 				</Grid>
 				<div>

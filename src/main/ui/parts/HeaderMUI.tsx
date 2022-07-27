@@ -13,7 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { useAppSelector } from '../../bll/hooks';
 import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion';
-import { Grid, LinearProgress } from '@mui/material';
+import {Avatar, Grid, LinearProgress} from '@mui/material';
 import { AppDispatchType } from '../../bll/store';
 import { logoutTC } from '../../bll/authReducer';
 import { useDispatch } from 'react-redux';
@@ -24,6 +24,7 @@ export function HeaderMUI () {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const userName = useAppSelector(state => state.profile.profile.name)
     const status = useAppSelector(state => state.app.status)
+    const avatar = useAppSelector(state => state.profile.profile.avatar)
     const dispatch = useDispatch<AppDispatchType>()
     const logoutHandler = () => {
         dispatch(logoutTC())
@@ -40,8 +41,8 @@ export function HeaderMUI () {
     };
 
     return (
-        <Box sx={{ flexGrow: 1}} >
-            <AppBar position="static" color='transparent'>
+        <Box sx={{ flexGrow: 1, width:"100%"}}>
+            <AppBar  position="static" color='transparent'>
                 <Toolbar style={{padding: '0 70px 0 70px'}}>
                     <Typography color="primary" variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         <AutoAwesomeMotionIcon/> CARDS
@@ -59,7 +60,7 @@ export function HeaderMUI () {
                                 onClick={handleMenu}
                                 color="primary"
                             >
-                                <AccountCircle sx={{ fontSize: 40 }} />
+                                <Avatar style={{backgroundColor: '#1976d2'}} src={avatar}  sx={{ width: 40, height: 40, }} />
                             </IconButton>
                         </div>
                             <Menu
