@@ -7,7 +7,7 @@ import { Avatar, Paper, Typography } from "@mui/material";
 import { PATH } from "./Pages";
 import { Navigate, NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../bll/hooks";
-import { Form, Formik, FormikErrors } from 'formik'
+import { Form, Formik } from 'formik'
 // import { resetPasswordTC } from "../../bll/resetPasswordReducer";
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 import { newPasswordTC } from '../../bll/registerReducer';
