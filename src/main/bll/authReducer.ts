@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import {authAPI, LoginParamsType} from "../api/api";
 import {setUserDataAC} from "./profileReducer";
 import {AppActionsType, AppDispatchType, AppThunkType} from "./store";
@@ -29,7 +30,7 @@ export const loginTC = (data: LoginParamsType): AppThunkType => (dispatch: AppDi
             dispatch(setUserDataAC(res))
             dispatch(setAppStatusAC('succeeded'))
         })
-        .catch((e) => {
+        .catch((e: AxiosError<{ error: string }>) => {
             const error = e.response
                 ? e.response.data.error
                 : (e.message + ', more details in the console');
@@ -51,7 +52,7 @@ export const logoutTC = (): AppThunkType => (dispatch: AppDispatchType) => {
             res.info && dispatch(setAppInfoAC(res.info))
             }
         )
-        .catch((e) => {
+        .catch((e: AxiosError<{ error: string }>) => {
             const error = e.response
                 ? e.response.data.error
                 : (e.message + ', more details in the console');

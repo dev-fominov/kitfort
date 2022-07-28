@@ -1,20 +1,24 @@
-import {Form, Formik, FormikProps} from 'formik'
-import {useAppDispatch, useAppSelector} from '../../bll/hooks'
-import {registerTC} from '../../bll/registerReducer'
+import { Form, Formik, FormikProps } from 'formik'
+import { useAppDispatch, useAppSelector } from '../../bll/hooks'
+import { registerTC } from '../../bll/registerReducer'
 import * as Yup from 'yup'
 import Grid from '@mui/material/Grid';
-import {Avatar, Paper, Typography} from "@mui/material";
+import { Avatar, Paper, Typography } from "@mui/material";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import {Navigate, NavLink} from 'react-router-dom';
-import {PATH} from './Pages';
+import { Navigate, NavLink } from 'react-router-dom';
+import { PATH } from './Pages';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import {useState} from 'react';
+import { useState } from 'react';
+
+const paperStyle = { padding: 30, height: '500px', width: 400, margin: '40px auto' }
+const btStyle = { marginTop: '70px', borderRadius: '30px' }
+const signUpTitleStyle = { textDecoration: 'none', marginTop: '30px', display: 'block' }
 
 const initialValues = { email: '', password: '', password2: '' }
 const validationSchema = Yup.object().shape({
@@ -37,14 +41,7 @@ export const Register = () => {
 
 	const [showPassword, setShowPassword] = useState<boolean>(false)
 
-	
-	console.log(isLoggedIn)
-	const paperStyle = { padding: 30, height: '500px', width: 400, margin: '40px auto' }
-	const btStyle = { marginTop: '70px', borderRadius: '30px' }
-	const signUpTitleStyle = { textDecoration: 'none', marginTop: '30px', display: 'block' }
-
 	const onSubmit = (values: RegisterValueType) => {
-		// console.log(values)
 		const regEmail = values.email
 		const regPassword = values.password
 		dispatch(registerTC(regEmail, regPassword))
@@ -54,8 +51,6 @@ export const Register = () => {
 		setShowPassword(!showPassword)
 	}
 
-	console.log(isLoggedIn)
-	
 	if (isLoggedIn) {
 		return <Navigate to={PATH.PROFILE} />
 	}
@@ -67,7 +62,7 @@ export const Register = () => {
 					direction="column"
 					justifyContent="center"
 					alignItems="center">
-					<Avatar style={{backgroundColor: '#1976d2'}}><GroupAddIcon /></Avatar>
+					<Avatar style={{ backgroundColor: '#1976d2' }}><GroupAddIcon /></Avatar>
 					<h2>Sign Up</h2>
 				</Grid>
 				<div>
@@ -78,7 +73,6 @@ export const Register = () => {
 					>
 						{(props: any & FormikProps<FormValues>) => {
 							const { getFieldProps, errors, touched } = props
-							// console.log(getFieldProps())
 							return (
 								<Form>
 									<FormControl fullWidth>

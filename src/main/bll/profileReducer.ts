@@ -1,6 +1,7 @@
-import {authAPI, loginResponseType} from "../api/api";
-import {setAppErrorAC, setAppStatusAC} from "./appReducer";
-import {AppActionsType, AppDispatchType, AppThunkType} from "./store";
+import { AxiosError } from 'axios';
+import { authAPI, loginResponseType } from "../api/api";
+import { setAppErrorAC, setAppStatusAC } from "./appReducer";
+import { AppActionsType, AppDispatchType, AppThunkType } from "./store";
 
 const initialState: InitialStateType = {
     profile: {} as loginResponseType
@@ -9,11 +10,11 @@ const initialState: InitialStateType = {
 export const profileReducer = (state: InitialStateType = initialState, action: AppActionsType): InitialStateType => {
     switch (action.type) {
         case 'login/SET-USER-DATA':
-            return {...state, profile: action.data}
+            return { ...state, profile: action.data }
         case 'login/SET-NEW-NAME':
-            return {...state, profile: {...state.profile, name: action.value}}
+            return { ...state, profile: { ...state.profile, name: action.value } }
         case 'login/SET-NEW-AVATAR':
-            return {...state, profile: {...state.profile, avatar: action.avatar}}
+            return { ...state, profile: { ...state.profile, avatar: action.avatar } }
         default:
             return state
     }
@@ -21,25 +22,25 @@ export const profileReducer = (state: InitialStateType = initialState, action: A
 
 // actions
 export const setUserDataAC = (data: loginResponseType) =>
-    ({type: 'login/SET-USER-DATA', data} as const)
+    ({ type: 'login/SET-USER-DATA', data } as const)
 export const setNewNameAC = (value: string) =>
-    ({type: 'login/SET-NEW-NAME', value} as const)
+    ({ type: 'login/SET-NEW-NAME', value } as const)
 export const setNewAvatarAC = (avatar: string | undefined) =>
-    ({type: 'login/SET-NEW-AVATAR', avatar} as const)
+    ({ type: 'login/SET-NEW-AVATAR', avatar } as const)
 
 // thunks
 export const setNewNameTC = (value: string): AppThunkType => (dispatch: AppDispatchType) => {
     dispatch(setAppStatusAC('loading'))
-    authAPI.changeNameAvatar({name: value, avatar: initialState.profile.avatar})
+    authAPI.changeNameAvatar({ name: value, avatar: initialState.profile.avatar })
         .then(res => {
             dispatch(setNewNameAC(res.updatedUser.name))
             dispatch(setAppStatusAC('succeeded'))
         })
-        .catch((e) => {
+        .catch((e: AxiosError<{ error: string }>) => {
             const error = e.response
                 ? e.response.data.error
                 : (e.message + ', more details in the console');
-            console.log('Error: ', {...e})
+            console.log('Error: ', { ...e })
             dispatch(setAppErrorAC(error))
         })
         .finally(() => {
@@ -47,18 +48,18 @@ export const setNewNameTC = (value: string): AppThunkType => (dispatch: AppDispa
         })
 }
 
-export const setNewAvatarTC = (avatar: unknown | undefined): AppThunkType => (dispatch: AppDispatchType) => {
+export const setNewAvatarTC = (avatar: unknown | undefined): AppThunkType => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
-    authAPI.changeNameAvatar({name: initialState.profile.name, avatar})
+    authAPI.changeNameAvatar({ name: initialState.profile.name, avatar })
         .then(res => {
             dispatch(setNewAvatarAC(res.updatedUser.avatar))
             dispatch(setAppStatusAC('succeeded'))
         })
-        .catch((e) => {
+        .catch((e: AxiosError<{ error: string }>) => {
             const error = e.response
                 ? e.response.data.error
                 : (e.message + ', more details in the console');
-            console.log('Error: ', {...e})
+            console.log('Error: ', { ...e })
             dispatch(setAppErrorAC(error))
         })
         .finally(() => {

@@ -1,10 +1,10 @@
-import {applyMiddleware, combineReducers, createStore} from 'redux'
-import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk'
-import {AuthActionsType, authReducer} from "./authReducer";
-import {ActionsTypeApp, appReducer} from "./appReducer";
-import {RegisterActionType, registerReducer} from './registerReducer';
-import {ResetPasswordActionsType, resetPasswordReducer} from "./resetPasswordReducer";
-import {ProfileActionsType, profileReducer} from "./profileReducer";
+import { applyMiddleware, combineReducers, legacy_createStore as createStore } from 'redux'
+import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk'
+import { AuthActionsType, authReducer } from "./authReducer";
+import { ActionsTypeApp, appReducer } from "./appReducer";
+import { RegisterActionType, registerReducer } from './registerReducer';
+import { ResetPasswordActionsType, resetPasswordReducer } from "./resetPasswordReducer";
+import { ProfileActionsType, profileReducer } from "./profileReducer";
 
 export const rootReducer = combineReducers({
     auth: authReducer,
@@ -16,11 +16,11 @@ export const rootReducer = combineReducers({
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
 
-export type AppActionsType = 
-    |AuthActionsType 
-    | ActionsTypeApp 
-    | RegisterActionType 
-    | ResetPasswordActionsType 
+export type AppActionsType =
+    | AuthActionsType
+    | ActionsTypeApp
+    | RegisterActionType
+    | ResetPasswordActionsType
     | ProfileActionsType
 export type RootStateType = ReturnType<typeof store.getState>
 export type AppDispatchType = ThunkDispatch<RootStateType, unknown, AppActionsType>

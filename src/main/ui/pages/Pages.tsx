@@ -11,7 +11,7 @@ export const PATH = {
     REGISTER: '/register',
     PROFILE: '/profile',
     RESET_PASSWORD: '/reset-password',
-    NEW_PASSWORD: '/new-password',
+    NEW_PASSWORD: '/new-password/*',
     TEST_COMPONENT: '/test',
 }
 
