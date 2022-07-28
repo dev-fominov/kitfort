@@ -1,6 +1,7 @@
 import {authAPI, LoginParamsType} from "../api/api";
-import {AppActionsType, AppDispatchType} from "./store";
-import {setAppErrorAC, setAppStatusAC} from "./appReducer";
+import {setUserDataAC} from "./profileReducer";
+import {AppActionsType, AppDispatchType, AppThunkType} from "./store";
+import {setAppErrorAC, setAppInfoAC, setAppStatusAC} from "./appReducer";
 
 const initialState: InitialStateType = {
     isLoggedIn: false
@@ -16,17 +17,16 @@ export const authReducer = (state: InitialStateType = initialState, action: AppA
 }
 
 // actions
-
 export const setIsLoggedInAC = (value: boolean) =>
     ({type: 'login/SET-IS-LOGGED-IN', value} as const)
 
-
 // thunks
-export const loginTC = (data: LoginParamsType) => (dispatch: AppDispatchType) => {
+export const loginTC = (data: LoginParamsType): AppThunkType => (dispatch: AppDispatchType) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.login(data)
-        .then(res => {
+        .then((res) => {
             dispatch(setIsLoggedInAC(true))
+            dispatch(setUserDataAC(res))
             dispatch(setAppStatusAC('succeeded'))
         })
         .catch((e) => {
@@ -37,14 +37,18 @@ export const loginTC = (data: LoginParamsType) => (dispatch: AppDispatchType) =>
             dispatch(setAppErrorAC(error))
             dispatch(setAppStatusAC('failed'))
         })
+        .finally(() => {
+            dispatch(setAppStatusAC('idle'))
+        })
 }
 
-export const logoutTC = () => (dispatch: AppDispatchType) => {
+export const logoutTC = (): AppThunkType => (dispatch: AppDispatchType) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.logout()
-        .then(res => {
+        .then((res) => {
                 dispatch(setIsLoggedInAC(false))
                 dispatch(setAppStatusAC('succeeded'))
+            res.info && dispatch(setAppInfoAC(res.info))
             }
         )
         .catch((e) => {
@@ -55,12 +59,13 @@ export const logoutTC = () => (dispatch: AppDispatchType) => {
             dispatch(setAppErrorAC(error))
             dispatch(setAppStatusAC('failed'))
         })
+        .finally(() => {
+            dispatch(setAppStatusAC('idle'))
+        })
 }
 
-
 // types
-
-export type ActionsTypeAuth = ReturnType<typeof setIsLoggedInAC>
+export type AuthActionsType = ReturnType<typeof setIsLoggedInAC>
 type InitialStateType = {
     isLoggedIn: boolean
 }

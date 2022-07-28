@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
@@ -15,6 +15,9 @@ import {AppDispatchType} from "../../bll/store";
 import {useAppSelector} from "../../bll/hooks";
 import {loginTC} from "../../bll/authReducer";
 import {Form, Formik, FormikErrors} from 'formik'
+import IconButton from "@mui/material/IconButton";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Visibility from "@mui/icons-material/Visibility";
 
 
 interface FormValues {
@@ -23,17 +26,20 @@ interface FormValues {
     rememberMe: boolean
 }
 
-
 export const LoginMUI = () => {
     const paperStyle = {padding: 30, height: '500px', width: 400, margin: '40px auto'}
-    const avatarStyle = {backgroundColor: '#9c2424'}
     const btStyle = {marginTop: '70px', borderRadius: '30px'}
     const forgoPasswordTitleStyle = {textDecoration: 'none', color: 'black'}
     const signUpTitleStyle = {textDecoration: 'none'}
     const textStyle = {marginTop: '30px', color: '#707070'}
 
+    const [showPassword, setShowPassword] = useState(false)
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword)
+    }
     const dispatch = useDispatch<AppDispatchType>()
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+    const status = useAppSelector(state => state.app.status)
 
     if (isLoggedIn) {
         return <Navigate to={PATH.PROFILE}/>
@@ -45,7 +51,7 @@ export const LoginMUI = () => {
                   direction="column"
                   justifyContent="center"
                   alignItems="center">
-                <Avatar style={avatarStyle}><LockOutlinedIcon/></Avatar>
+                <Avatar style={{backgroundColor: '#1976d2'}}><LockOutlinedIcon/></Avatar>
                 <h2>Sign In</h2>
             </Grid>
             <Formik
@@ -60,7 +66,8 @@ export const LoginMUI = () => {
                     if (!values.password) {
                         errors.password = 'Required'
                     } else if (values.password.length < 7) {
-                        errors.password = 'Minimum password length of 7 characters'}
+                        errors.password = 'Minimum password length of 7 characters'
+                    }
                     return errors;
                 }}
                 onSubmit={(values, actions) => {
@@ -80,16 +87,26 @@ export const LoginMUI = () => {
                                            fullWidth
                                            required
                                            helperText={touched.email && errors.email}
-                                           {...getFieldProps("email")}/>
+                                           {...getFieldProps("email")} />
                                 <TextField error={touched.password && !!errors.password}
-                                           type='password'
+                                           type={showPassword ? 'text' : 'password'}
                                            variant="standard"
                                            label="Password"
                                            placeholder={'Enter password'}
                                            fullWidth
                                            required
                                            helperText={touched.password && errors.password}
-                                           {...getFieldProps("password")}/>
+                                           {...getFieldProps("password")}
+                                           InputProps={{
+                                               endAdornment: <IconButton
+                                                   aria-label="toggle password visibility"
+                                                   onClick={handleClickShowPassword}
+                                                   edge="end"
+                                               >
+                                                   {showPassword ? <VisibilityOff/> : <Visibility/>}
+                                               </IconButton>
+                                           }}
+                                />
                                 <FormControlLabel label={'Remember me'}
                                                   control={<Checkbox {...getFieldProps("rememberMe")}
                                                                      checked={values.rememberMe}/>}/>
@@ -100,7 +117,7 @@ export const LoginMUI = () => {
                                     </Typography>
                                 </Grid>
                                 <Button type={'submit'}
-                                        disabled={isSubmitting}
+                                        disabled={status === 'loading'}
                                         variant={'contained'}
                                         color={'primary'}
                                         style={btStyle}
@@ -116,7 +133,7 @@ export const LoginMUI = () => {
                   alignItems="center">
                 <Typography style={textStyle}>Don’t have an account?</Typography>
                 <Typography>
-                    <NavLink style={signUpTitleStyle} to={PATH.LOGOUT}> Sign Up</NavLink>
+                    <NavLink style={signUpTitleStyle} to={PATH.REGISTER}> Sign Up</NavLink>
                 </Typography>
             </Grid>
         </Paper>
