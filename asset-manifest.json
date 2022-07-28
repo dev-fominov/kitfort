@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/kitfort/static/css/main.c9ea7db8.css",
-    "main.js": "/kitfort/static/js/main.464e9e08.js",
+    "main.js": "/kitfort/static/js/main.cc72613e.js",
     "static/js/787.c73cd13a.chunk.js": "/kitfort/static/js/787.c73cd13a.chunk.js",
     "static/media/edit.svg": "/kitfort/static/media/edit.d2d38ce1f977e7056cbc135d5ca2358b.svg",
     "index.html": "/kitfort/index.html",
     "static/media/back_arrow.svg": "/kitfort/static/media/back_arrow.19c7bd8ee7d32ca8451f1de3f6803354.svg",
     "main.c9ea7db8.css.map": "/kitfort/static/css/main.c9ea7db8.css.map",
-    "main.464e9e08.js.map": "/kitfort/static/js/main.464e9e08.js.map",
+    "main.cc72613e.js.map": "/kitfort/static/js/main.cc72613e.js.map",
     "787.c73cd13a.chunk.js.map": "/kitfort/static/js/787.c73cd13a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c9ea7db8.css",
-    "static/js/main.464e9e08.js"
+    "static/js/main.cc72613e.js"
   ]
 }
