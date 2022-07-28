@@ -6,7 +6,7 @@ import { setAppErrorAC, setAppInfoAC, setAppStatusAC } from "./appReducer";
 const initialState: InitialStateType = {
     email: null,
     from: "test-front-admin <ai73a@yandex.by>",
-    message: `<div style="padding: 15px">Password recovery link: <a href='https://neko-back.herokuapp.com/2.0/kitfort/#/new-password/$token$'>link</a></div>`,
+    message: `<div style="padding: 15px">Password recovery link: <a href='https://dev-fominov.github.io/kitfort/#/new-password/$token$'>link</a></div>`,
     // message: `<div style="padding: 15px">Password recovery link: <a href='http://localhost:3000/kitfort#/new-password/$token$'>link</a></div>`,
 }
 
