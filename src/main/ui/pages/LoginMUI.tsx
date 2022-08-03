@@ -84,7 +84,7 @@ export const LoginMUI = () => {
                                            placeholder={'Enter email'}
                                            fullWidth
                                            required
-                                           helperText={touched.email && errors.email}
+                                           helperText={touched.email && errors.email ? errors.email : ''}
                                            {...getFieldProps("email")} />
                                 <TextField error={touched.password && !!errors.password}
                                            type={showPassword ? 'text' : 'password'}

@@ -1,10 +1,10 @@
 import {ChangeEvent, useEffect, useState} from 'react'
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import {InputBase, Slider, styled, Toolbar, Typography} from "@mui/material";
+import {InputBase, Slider, styled, Typography} from "@mui/material";
 import {PATH} from "./Pages";
 import {Navigate} from "react-router-dom";
-import {useIsFirstRender, useDebounce, useAppDispatch, useAppSelector} from "../../bll/hooks";
+import {useAppDispatch, useAppSelector, useDebounce, useIsFirstRender} from "../../bll/hooks";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from '@mui/icons-material/Search';
 import ToggleButton from '@mui/material/ToggleButton';
@@ -92,12 +92,6 @@ export const PacksList = () => {
         }
     }, [debouncedSearchTerm])
 
-
-    /*const handleSortModelChange = React.useCallback((sortModel: GridSortModel) => {
-        // Here you save the data you need from the sort model
-        setQueryOptions({ sortModel: [...sortModel] });
-    }, []);*/
-
     const columns: GridColDef[] = [
         {
             field: 'name',
@@ -139,6 +133,7 @@ export const PacksList = () => {
         },
         {
             field: 'userID',
+            hide: true
         },
         {
             field: "Actions",
@@ -158,22 +153,24 @@ export const PacksList = () => {
                         color="primary">
                         <FileOpenIcon fontSize="small"/>
                     </IconButton>
-                     <IconButton
-                         disabled={profileID !== cellValues.row.userID}
-                    onClick={(event) => {
-                        onBtnDeletePack(cellValues.id as string)
-                    }}
-                    color="primary">
-                    <DeleteIcon fontSize="small"/>
-                </IconButton>
-                     <IconButton
+                    {profileID === cellValues.row.userID &&
+                    <IconButton
                         disabled={status === 'loading'}
                         onClick={(event) => {
-                            onBtnUpdatePack(cellValues.id as string, 'Updat Name')
+                            onBtnDeletePack(cellValues.id as string)
                         }}
                         color="primary">
+                        <DeleteIcon fontSize="small"/>
+                    </IconButton>}
+                    { profileID === cellValues.row.userID &&
+                    <IconButton
+                        disabled={status === 'loading'}
+                        onClick={(event) => {
+                        onBtnUpdatePack(cellValues.id as string, 'Updat Name')
+                    }}
+                        color="primary">
                         <BorderColorIcon fontSize="small"/>
-                    </IconButton>
+                        </IconButton>}
                 </Grid>
             }
         }
@@ -190,18 +187,9 @@ export const PacksList = () => {
         }))
 
 
-    const onBtnDeletePack = (packId: string) => {
-        dispatch(deletePackTC(packId))
-    }
-
-    const onBtnUpdatePack = (packId: string, name: string) => {
-        dispatch(updatePackTC(packId, name))
-    }
-
-    const onBtnCardsClick = (packId: string) => {
-        dispatch(setPackIdAC(packId))
-    }
-
+    const onBtnDeletePack = (packId: string) => {dispatch(deletePackTC(packId))}
+    const onBtnUpdatePack = (packId: string, name: string) => {dispatch(updatePackTC(packId, name))}
+    const onBtnCardsClick = (packId: string) => {dispatch(setPackIdAC(packId))}
     const onBtnAddPack = (name: string) => dispatch(addPackTC(name))
 
     if (!isLoggedIn) {

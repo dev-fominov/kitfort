@@ -1,8 +1,9 @@
-import { AxiosError } from 'axios';
+import {AxiosError} from 'axios';
 import {authAPI, LoginParamsType} from "../api/api";
 import {setUserDataAC} from "./profileReducer";
 import {AppActionsType, AppDispatchType, AppThunkType} from "./store";
-import {setAppErrorAC, setAppInfoAC, setAppStatusAC} from "./appReducer";
+import {errorTC, setAppErrorAC, setAppInfoAC, setAppStatusAC} from "./appReducer";
+import {errorMessage} from '../ui/common/errorMessage';
 
 const initialState: InitialStateType = {
     isLoggedIn: false
@@ -31,15 +32,7 @@ export const loginTC = (data: LoginParamsType): AppThunkType => (dispatch: AppDi
             dispatch(setAppStatusAC('succeeded'))
         })
         .catch((e: AxiosError<{ error: string }>) => {
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console');
-            console.log('Error: ', {...e})
-            dispatch(setAppErrorAC(error))
-            dispatch(setAppStatusAC('failed'))
-        })
-        .finally(() => {
-            dispatch(setAppStatusAC('idle'))
+            dispatch(errorTC(e))
         })
 }
 
@@ -53,15 +46,7 @@ export const logoutTC = (): AppThunkType => (dispatch: AppDispatchType) => {
             }
         )
         .catch((e: AxiosError<{ error: string }>) => {
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console');
-            console.log('Error: ', {...e})
-            dispatch(setAppErrorAC(error))
-            dispatch(setAppStatusAC('failed'))
-        })
-        .finally(() => {
-            dispatch(setAppStatusAC('idle'))
+            dispatch(errorTC(e))
         })
 }
 

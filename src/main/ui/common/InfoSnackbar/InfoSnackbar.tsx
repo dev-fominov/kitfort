@@ -1,9 +1,9 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootStateType } from '../../../bll/store'
-import { setAppInfoAC } from '../../../bll/appReducer'
+import {useDispatch} from 'react-redux'
+import {setAppErrorAC, setAppInfoAC} from '../../../bll/appReducer'
 import Snackbar from '@mui/material/Snackbar';
-import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import MuiAlert, {AlertProps} from "@mui/material/Alert";
+import {useAppSelector} from '../../../bll/hooks';
 
 export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -18,17 +18,22 @@ export function InfoSnackbar() {
         if (reason === 'clickaway') {
             return;
         }
-        dispatch(setAppInfoAC(null))
+        info && dispatch(setAppInfoAC(null))
+        error && dispatch(setAppErrorAC(null))
     };
 
-    const info = useSelector<RootStateType, string | null>(state => state.app.info);
-    const isOpen = info != null
+    const error = useAppSelector(state => state.app.error);
+    const info = useAppSelector(state => state.app.info);
+    const isOpen = info != null || error != null
+
+    const colorAlertInfo = info ? 'success' : undefined
+    const colorAlertError = error ? 'error' :  undefined
 
     return (
         <Snackbar open={isOpen} autoHideDuration={3000} onClose={handleClose}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
-            <Alert color="success" onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                {info}
+                  anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}>
+            <Alert  onClose={handleClose} severity={colorAlertInfo || colorAlertError} sx={{width: '100%'}}>
+                {info}  {error}
             </Alert>
         </Snackbar>
     );

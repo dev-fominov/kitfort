@@ -1,9 +1,9 @@
-import { AxiosError } from "axios";
-import { authAPI } from "../api/api";
-import { setAppErrorAC, setAppInfoAC, setAppStatusAC } from "./appReducer";
-import { setIsLoggedInAC } from "./authReducer";
-import { AppThunkType } from "./store";
-import { setUserDataAC } from "./profileReducer";
+import {AxiosError} from "axios";
+import {authAPI} from "../api/api";
+import {errorTC, setAppInfoAC, setAppStatusAC} from "./appReducer";
+import {setIsLoggedInAC} from "./authReducer";
+import {AppThunkType} from "./store";
+import {setUserDataAC} from "./profileReducer";
 
 const initialState: InitialStateType = {
     isRegisterIn: false
@@ -38,15 +38,7 @@ export const registerTC = (email: string, password: string): AppThunkType => (di
             dispatch(setAppStatusAC('succeeded'))
         })
         .catch((e: AxiosError<{ error: string }>) => {
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console');
-            console.log('Error: ', { ...e })
-            dispatch(setAppErrorAC(error))
-            dispatch(setAppStatusAC('failed'))
-        })
-        .finally(() => {
-            dispatch(setAppStatusAC('idle'))
+            dispatch(errorTC(e))
         })
 }
 
@@ -58,15 +50,7 @@ export const newPasswordTC = (password: string, resetPasswordToken: string): App
             res.info && dispatch(setAppInfoAC(res.info))
         })
         .catch((e: AxiosError<{ error: string }>) => {
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console');
-            console.log('Error: ', { ...e })
-            dispatch(setAppErrorAC(error))
-            dispatch(setAppStatusAC('failed'))
-        })
-        .finally(() => {
-            dispatch(setAppStatusAC('idle'))
+            dispatch(errorTC(e))
         })
 }
 

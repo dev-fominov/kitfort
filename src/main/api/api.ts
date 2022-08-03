@@ -5,7 +5,6 @@ export const instance = axios.create({
     withCredentials: true,
 })
 
-
 export const instance2 = axios.create({
     baseURL: 'https://neko-back.herokuapp.com/2.0/',
     withCredentials: true,
@@ -13,21 +12,21 @@ export const instance2 = axios.create({
 
 export const authAPI = {
     login(data: LoginParamsType) {
-        return instance.post<loginResponseType>(`auth/login`, data).then(res => res.data)
+        return instance.post<LoginResponseType>(`auth/login`, data).then(res => res.data)
     },
     logout() {
         return instance.delete<ResponseType>(`auth/me`).then(res => res.data)
     },
     me() {
-        return instance.post<loginResponseType>(`auth/me`, {}).then(res => res.data)
+        return instance.post<LoginResponseType>(`auth/me`, {}).then(res => res.data)
     },
     changeNameAvatar(data: { name: string; avatar: unknown | string | undefined }) {
         return instance.put<ChangeNameResponseType>(`auth/me`, data).then(res => res.data)
     },
     register(email: string, password: string) {
-        return instance.post<registerResponseType>(`auth/register`, {email, password}).then(res => res.data)
+        return instance.post<RegisterResponseType>(`auth/register`, {email, password}).then(res => res.data)
     },
-    resetPassword(data: resetPasswordParamsType) {
+    resetPassword(data: ResetPasswordParamsType) {
         return instance2.post<ResponseType>(`auth/forgot`, data).then(res => res.data)
     },
     setNewPassword(password: string, resetPasswordToken: string) {
@@ -39,24 +38,26 @@ export const authAPI = {
 }
 
 export const packsAPI = {
-    getPacks(min?: number, 
-             max?: number, 
-             searchName?: string, 
-             page?: number, 
-             pageCount?: number, 
+    getPacks(min?: number,
+             max?: number,
+             searchName?: string,
+             page?: number,
+             pageCount?: number,
              sortProducts?: string,
              userId?: string) {
-        return instance.get(`cards/pack?`
+        return instance.get<GetPacksResponseType>(`cards/pack?`
             + (max ? `min=${min}&max=${max}&` : '')
             + (searchName ? `packName=${searchName}&` : '')
-            + (page  ? `page=${page}&` : '')
-            + (pageCount  ? `pageCount=${pageCount}&` : '')
+            + (page ? `page=${page}&` : '')
+            + (pageCount ? `pageCount=${pageCount}&` : '')
             + (sortProducts ? `sortProducts=${sortProducts}&` : '')
             + (userId ? `user_id=${userId}&` : '')).then(res => res.data)
     },
     addPack(name?: string) {
-        return instance.post(`cards/pack`, {cardsPack:
-                {name: name || 'new test pack', deckCover: '', private: false}})
+        return instance.post(`cards/pack`, {
+            cardsPack:
+                {name: name || 'new test pack', deckCover: '', private: false}
+        })
     },
     deletePack(packId: string) {
         return instance.delete(`cards/pack?id=${packId}`)
@@ -72,12 +73,12 @@ export type LoginParamsType = {
     password: string
     rememberMe: boolean
 }
-export type resetPasswordParamsType = {
+export type ResetPasswordParamsType = {
     email: string
     from: "test-front-admin <ai73a@yandex.by>"
     message: string
 }
-export type loginResponseType = {
+export type LoginResponseType = {
     _id: string;
     email: string;
     name: string;
@@ -95,14 +96,14 @@ export type ResponseType = {
     error?: string
 }
 export type ChangeNameResponseType = {
-    updatedUser: loginResponseType
+    updatedUser: LoginResponseType
     error?: string
 }
-export type changeName = {
+export type ChangeName = {
     name: string
     avatar: unknown | string | undefined
 }
-type registerResponseType = {
+type RegisterResponseType = {
     created: Date;
     email: string;
     isAdmin: boolean;
@@ -119,7 +120,7 @@ type SetNewPassword = {
     error: string
 }
 
-export type getPacksResponseType = {
+export type GetPacksResponseType = {
     cardPacks: Array<PackType>
     cardPacksTotalCount: number// количество колод
     maxCardsCount: number
@@ -129,7 +130,6 @@ export type getPacksResponseType = {
     token: string
     tokenDeathTime: number
 }
-
 export type PackType = {
     cardsCount: number
     created: string

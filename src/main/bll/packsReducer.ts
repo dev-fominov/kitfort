@@ -1,7 +1,7 @@
 import {AxiosError} from 'axios';
 import {packsAPI, PackType} from "../api/api";
 import {AppActionsType, AppDispatchType, RootStateType} from "./store";
-import {setAppErrorAC, setAppStatusAC} from "./appReducer";
+import {errorTC, setAppStatusAC} from "./appReducer";
 
 const initialState: InitialStateType = {
     cardPacks: [] as Array<PackType>,
@@ -35,12 +35,7 @@ export const getPacksTC = () => (dispatch: AppDispatchType, getStore: GetStore) 
             dispatch(setAppStatusAC('succeeded'))
         })
         .catch((e: AxiosError<{ error: string }>) => {
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console');
-            console.log('Error: ', { ...e })
-            dispatch(setAppErrorAC(error))
-            dispatch(setAppStatusAC('failed'))
+            dispatch(errorTC(e))
         })
 }
 
@@ -52,12 +47,7 @@ export const addPackTC = (name?: string) => (dispatch: AppDispatchType) => {
             dispatch(setAppStatusAC('succeeded'))
         })
         .catch((e: AxiosError<{ error: string }>) => {
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console');
-            console.log('Error: ', { ...e })
-            dispatch(setAppErrorAC(error))
-            dispatch(setAppStatusAC('failed'))
+            dispatch(errorTC(e))
         })
 }
 export const deletePackTC = (packId: string) => (dispatch: AppDispatchType) => {
@@ -68,12 +58,7 @@ export const deletePackTC = (packId: string) => (dispatch: AppDispatchType) => {
             dispatch(setAppStatusAC('succeeded'))
         })
         .catch((e: AxiosError<{ error: string }>) => {
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console');
-            console.log('Error: ', { ...e })
-            dispatch(setAppErrorAC(error))
-            dispatch(setAppStatusAC('failed'))
+            dispatch(errorTC(e))
         })
 }
 
@@ -85,18 +70,13 @@ export const updatePackTC = (packId: string, name: string) => (dispatch: AppDisp
             dispatch(setAppStatusAC('succeeded'))
         })
         .catch((e: AxiosError<{ error: string }>) => {
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console');
-            console.log('Error: ', {...e})
-            dispatch(setAppErrorAC(error))
-            dispatch(setAppStatusAC('failed'))
+            dispatch(errorTC(e))
         })
 }
 
 
 // types
-export type PacksTypeActionsType = ReturnType<typeof setPacksAC> | ReturnType<typeof setPackIdAC>
+export type PacksActionsType = ReturnType<typeof setPacksAC> | ReturnType<typeof setPackIdAC>
 type InitialStateType = {
     cardPacks:  Array<PackType>,
     cardPacksTotalCount: number

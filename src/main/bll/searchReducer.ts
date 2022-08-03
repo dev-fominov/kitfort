@@ -1,7 +1,4 @@
-import {AxiosError} from 'axios';
-import {packsAPI, PackType} from "../api/api";
-import {AppActionsType, AppDispatchType} from "./store";
-import {setAppErrorAC, setAppStatusAC} from "./appReducer";
+import {AppActionsType} from "./store";
 
 const initialState: InitialStateType = {
     min: 0,
@@ -41,7 +38,7 @@ export const setProfileIDAC = (profileID: string) => ({type: 'search/SET-PROFILE
 
 
 // types
-export type SearchTypeActionsType =
+export type SearchActionsType =
     |ReturnType<typeof setMinMaxAC>
     | ReturnType<typeof setSearchNameAC>
     | ReturnType<typeof setPageAC>

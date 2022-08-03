@@ -40,7 +40,7 @@ export function HeaderMUI() {
     };
 
     return (
-        <Box sx={{ flexGrow: 1, width: "100%" }}>
+        <Box sx={{ flexGrow: 1, width: "100%", position: 'relative' }}>
             <AppBar position="static" color='transparent'>
                 <Toolbar style={{ padding: '0 70px 0 70px' }}>
                     <Typography color="primary" variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -88,7 +88,7 @@ export function HeaderMUI() {
                     )}
                 </Toolbar>
             </AppBar>
-            {status === 'loading' && <LinearProgress />}
+            {status === 'loading' && <LinearProgress sx={{position: 'absolute', bottom: 0,   left: 0, right: 0}}/>}
         </Box>
     );
 }

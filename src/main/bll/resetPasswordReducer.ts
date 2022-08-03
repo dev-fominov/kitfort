@@ -1,7 +1,7 @@
-import { AxiosError } from 'axios';
-import { authAPI } from "../api/api";
-import { AppActionsType, AppDispatchType, AppThunkType } from "./store";
-import { setAppErrorAC, setAppInfoAC, setAppStatusAC } from "./appReducer";
+import {AxiosError} from 'axios';
+import {authAPI} from "../api/api";
+import {AppActionsType, AppDispatchType, AppThunkType} from "./store";
+import {errorTC, setAppInfoAC, setAppStatusAC} from "./appReducer";
 
 const initialState: InitialStateType = {
     email: null,
@@ -34,15 +34,10 @@ export const resetPasswordTC = (email: string): AppThunkType => (dispatch: AppDi
         .then(res => {
             dispatch(setEmailAC(email))
             dispatch(setAppStatusAC('succeeded'))
-            res.info && dispatch(setAppInfoAC(`We’ve sent an Email with instructions to ${email}`))
+            dispatch(setAppInfoAC(`We’ve sent an Email with instructions to ${email}`))
         })
         .catch((e: AxiosError<{ error: string }>) => {
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console');
-            console.log('Error: ', { ...e })
-            dispatch(setAppErrorAC(error))
-            dispatch(setAppStatusAC('failed'))
+            dispatch(errorTC(e))
         })
 }
 
