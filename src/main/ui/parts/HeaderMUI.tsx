@@ -12,6 +12,12 @@ import { Avatar, LinearProgress } from '@mui/material';
 import { logoutTC } from '../../bll/authReducer';
 import { NavLink } from 'react-router-dom';
 import { PATH } from '../pages/Pages';
+import PersonIcon from '@mui/icons-material/Person';
+import LogoutIcon from '@mui/icons-material/Logout';
+
+const menuTitleStyle = { textDecoration: 'none', color:'black' }
+const iconMenuStyle = { marginRight: '10px', fontSize: '20px'}
+const nameTitleStyle = { marginRight: '10px',  borderBottom:'1px dashed'}
 
 export function HeaderMUI() {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
@@ -43,7 +49,7 @@ export function HeaderMUI() {
                     {isLoggedIn && (
                         <div>
                             <div style={{ display: 'flex', alignItems: "center" }}>
-                                <Typography component="div">
+                                <Typography style={nameTitleStyle}>
                                     {userName}
                                 </Typography>
                                 <IconButton
@@ -57,6 +63,7 @@ export function HeaderMUI() {
                                 </IconButton>
                             </div>
                             <Menu
+                                sx={{ mt: '40px' }}
                                 id="menu-appbar"
                                 anchorEl={anchorEl}
                                 anchorOrigin={{
@@ -71,8 +78,11 @@ export function HeaderMUI() {
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
                             >
-                                <MenuItem onClick={handleClose}><NavLink to={PATH.PROFILE}>Profile</NavLink></MenuItem>
-                                <MenuItem onClick={logoutHandler}>Log Out</MenuItem>
+                                
+                                <Typography textAlign="center">
+                                <MenuItem onClick={handleClose}><NavLink style={menuTitleStyle} to={PATH.PROFILE}><PersonIcon style={iconMenuStyle}/>Profile</NavLink></MenuItem>
+                                <MenuItem onClick={logoutHandler}><LogoutIcon style={iconMenuStyle}/>Log Out</MenuItem>
+                                </Typography>
                             </Menu>
                         </div>
                     )}

@@ -11,6 +11,7 @@ import { Form, Formik } from 'formik'
 // import { resetPasswordTC } from "../../bll/resetPasswordReducer";
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 import { newPasswordTC } from '../../bll/registerReducer';
+import PasswordIcon from '@mui/icons-material/Password';
 import * as Yup from 'yup'
 
 const paperStyle = { padding: 30, height: '500px', width: 400, margin: '40px auto' }
@@ -55,7 +56,7 @@ export const NewPassword = () => {
 				direction="column"
 				justifyContent="center"
 				alignItems="center">
-				<Avatar style={avatarStyle}><QuestionMarkOutlinedIcon /></Avatar>
+				<Avatar style={{backgroundColor: '#1976d2'}}><PasswordIcon/></Avatar>
 				<h2>Create new password</h2>
 			</Grid>
 			<Formik
