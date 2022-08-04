@@ -143,7 +143,7 @@ export const PacksList = () => {
             headerAlign: 'center',
             headerClassName: 'super-app-theme--header',
             cellClassName: 'super-app-theme--cell',
-            renderCell: (cellValues) => {
+            renderCell: (cellValues: any) => {
                 return <Grid>
                     <IconButton
                         disabled={status === 'loading'}
@@ -271,9 +271,9 @@ export const PacksList = () => {
                     rowCount={packs.cardPacksTotalCount}
                     paginationMode="server"
                     page={search.page}
-                    onPageChange={(newPage) => dispatch(setPageAC(newPage))}
+                    onPageChange={(newPage: any) => dispatch(setPageAC(newPage))}
                     pageSize={search.pageCount}
-                    onPageSizeChange={(newPage) => dispatch(setPageCountAC(newPage))}
+                    onPageSizeChange={(newPage: any) => dispatch(setPageCountAC(newPage))}
                     autoHeight
                     rows={rows}
                     columns={columns}
