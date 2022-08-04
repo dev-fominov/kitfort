@@ -30,7 +30,6 @@ export const App = () => {
                 <NavLink className={itemActive} to={PATH.PROFILE}>Profile</NavLink>
                 <NavLink className={itemActive} to={PATH.RESET_PASSWORD}>Reset Password</NavLink>
                 <NavLink className={itemActive} to={PATH.NEW_PASSWORD}>New password</NavLink>
-                <NavLink className={itemActive} to={PATH.ADD_NEW_CARD}>Add new card</NavLink>
             </div>
             {!isInitialized
                 ? <CircularProgress

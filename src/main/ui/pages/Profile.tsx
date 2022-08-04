@@ -13,6 +13,7 @@ import { logoutTC } from "../../bll/authReducer";
 import { Avatar, IconButton } from '@mui/material';
 import { PhotoCamera } from "@mui/icons-material";
 
+
 export const Profile = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const name = useAppSelector(state => state.profile.profile.name)
