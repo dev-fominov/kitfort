@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { Error404 } from './404'
 import { Register } from './Register'
 import { NewPassword } from './NewPassword'
+import { Pack } from './Pack'
 import { Profile } from './Profile'
 import { ResetPassword } from './ResetPassword'
 import { LoginMUI } from "./LoginMUI";
@@ -13,6 +14,7 @@ export const PATH = {
     RESET_PASSWORD: '/reset-password',
     NEW_PASSWORD: '/new-password/*',
     TEST_COMPONENT: '/test',
+    PACK: '/pack',
 }
 
 export const Pages = () => {
@@ -25,6 +27,7 @@ export const Pages = () => {
                 <Route path={PATH.PROFILE} element={<Profile />} />
                 <Route path={PATH.RESET_PASSWORD} element={<ResetPassword />} />
                 <Route path={PATH.NEW_PASSWORD} element={<NewPassword />} />
+                <Route path={PATH.PACK} element={<Pack />} />
                 <Route path={'/*'} element={<Error404 />} />
             </Routes>
         </div>
