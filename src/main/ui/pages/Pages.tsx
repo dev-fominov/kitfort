@@ -6,14 +6,14 @@ import { Pack } from './Pack'
 import { Profile } from './Profile'
 import { ResetPassword } from './ResetPassword'
 import { LoginMUI } from "./LoginMUI";
-
+import { PacksList } from "./PacksList";
 export const PATH = {
     LOGIN: '/login',
     REGISTER: '/register',
     PROFILE: '/profile',
     RESET_PASSWORD: '/reset-password',
     NEW_PASSWORD: '/new-password/*',
-    TEST_COMPONENT: '/test',
+    PACKS_LIST: 'packs-list',
     PACK: '/pack',
 }
 
@@ -28,6 +28,7 @@ export const Pages = () => {
                 <Route path={PATH.RESET_PASSWORD} element={<ResetPassword />} />
                 <Route path={PATH.NEW_PASSWORD} element={<NewPassword />} />
                 <Route path={PATH.PACK} element={<Pack />} />
+                <Route path={PATH.PACKS_LIST} element={<PacksList />} />
                 <Route path={'/*'} element={<Error404 />} />
             </Routes>
         </div>

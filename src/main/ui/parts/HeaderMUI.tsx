@@ -12,6 +12,12 @@ import { Avatar, LinearProgress } from '@mui/material';
 import { logoutTC } from '../../bll/authReducer';
 import { NavLink } from 'react-router-dom';
 import { PATH } from '../pages/Pages';
+import PersonIcon from '@mui/icons-material/Person';
+import LogoutIcon from '@mui/icons-material/Logout';
+
+const menuTitleStyle = { textDecoration: 'none', color:'black' }
+const iconMenuStyle = { marginRight: '10px', fontSize: '20px'}
+const nameTitleStyle = { marginRight: '10px',  borderBottom:'1px dashed'}
 
 export function HeaderMUI() {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
@@ -34,7 +40,7 @@ export function HeaderMUI() {
     };
 
     return (
-        <Box sx={{ flexGrow: 1, width: "100%" }}>
+        <Box sx={{ flexGrow: 1, width: "100%", position: 'relative' }}>
             <AppBar position="static" color='transparent'>
                 <Toolbar style={{ padding: '0 70px 0 70px' }}>
                     <Typography color="primary" variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -43,7 +49,7 @@ export function HeaderMUI() {
                     {isLoggedIn && (
                         <div>
                             <div style={{ display: 'flex', alignItems: "center" }}>
-                                <Typography component="div">
+                                <Typography style={nameTitleStyle}>
                                     {userName}
                                 </Typography>
                                 <IconButton
@@ -57,6 +63,7 @@ export function HeaderMUI() {
                                 </IconButton>
                             </div>
                             <Menu
+                                sx={{ mt: '40px' }}
                                 id="menu-appbar"
                                 anchorEl={anchorEl}
                                 anchorOrigin={{
@@ -71,14 +78,17 @@ export function HeaderMUI() {
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
                             >
-                                <MenuItem onClick={handleClose}><NavLink to={PATH.PROFILE}>Profile</NavLink></MenuItem>
-                                <MenuItem onClick={logoutHandler}>Log Out</MenuItem>
+                                
+                                <Typography textAlign="center">
+                                <MenuItem onClick={handleClose}><NavLink style={menuTitleStyle} to={PATH.PROFILE}><PersonIcon style={iconMenuStyle}/>Profile</NavLink></MenuItem>
+                                <MenuItem onClick={logoutHandler}><LogoutIcon style={iconMenuStyle}/>Log Out</MenuItem>
+                                </Typography>
                             </Menu>
                         </div>
                     )}
                 </Toolbar>
             </AppBar>
-            {status === 'loading' && <LinearProgress />}
+            {status === 'loading' && <LinearProgress sx={{position: 'absolute', bottom: 0,   left: 0, right: 0}}/>}
         </Box>
     );
 }

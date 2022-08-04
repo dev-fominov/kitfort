@@ -1,10 +1,10 @@
-import { AxiosError } from 'axios';
-import { authAPI, loginResponseType } from "../api/api";
-import { setAppErrorAC, setAppStatusAC } from "./appReducer";
-import { AppActionsType, AppDispatchType, AppThunkType } from "./store";
+import {AxiosError} from 'axios';
+import {authAPI, LoginResponseType} from "../api/api";
+import {errorTC, setAppStatusAC} from "./appReducer";
+import {AppActionsType, AppDispatchType, AppThunkType} from "./store";
 
 const initialState: InitialStateType = {
-    profile: {} as loginResponseType
+    profile: {} as LoginResponseType
 }
 
 export const profileReducer = (state: InitialStateType = initialState, action: AppActionsType): InitialStateType => {
@@ -21,7 +21,7 @@ export const profileReducer = (state: InitialStateType = initialState, action: A
 }
 
 // actions
-export const setUserDataAC = (data: loginResponseType) =>
+export const setUserDataAC = (data: LoginResponseType) =>
     ({ type: 'login/SET-USER-DATA', data } as const)
 export const setNewNameAC = (value: string) =>
     ({ type: 'login/SET-NEW-NAME', value } as const)
@@ -37,14 +37,7 @@ export const setNewNameTC = (value: string): AppThunkType => (dispatch: AppDispa
             dispatch(setAppStatusAC('succeeded'))
         })
         .catch((e: AxiosError<{ error: string }>) => {
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console');
-            console.log('Error: ', { ...e })
-            dispatch(setAppErrorAC(error))
-        })
-        .finally(() => {
-            dispatch(setAppStatusAC('idle'))
+            dispatch(errorTC(e))
         })
 }
 
@@ -56,14 +49,7 @@ export const setNewAvatarTC = (avatar: unknown | undefined): AppThunkType => (di
             dispatch(setAppStatusAC('succeeded'))
         })
         .catch((e: AxiosError<{ error: string }>) => {
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console');
-            console.log('Error: ', { ...e })
-            dispatch(setAppErrorAC(error))
-        })
-        .finally(() => {
-            dispatch(setAppStatusAC('idle'))
+            dispatch(errorTC(e))
         })
 }
 
@@ -73,5 +59,5 @@ export type SetNewNameACType = ReturnType<typeof setNewNameAC>
 export type SetNewAvatarACType = ReturnType<typeof setNewAvatarAC>
 export type ProfileActionsType = SetUserDataACType | SetNewNameACType | SetNewAvatarACType
 type InitialStateType = {
-    profile: loginResponseType
+    profile: LoginResponseType
 }
