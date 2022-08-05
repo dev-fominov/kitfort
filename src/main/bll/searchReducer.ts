@@ -1,12 +1,12 @@
 import {AppActionsType} from "./store";
 
 const initialState: InitialStateType = {
-    min: 0,
-    max: 110,
-    searchName: '',
+    min:  0,
+    max:  110,
+    searchName:  '',
     page: 0,
     pageCount: 5,
-    sortProducts: '0updated',
+    sortProducts:  undefined,
     profileID: ''
 }
 
@@ -47,11 +47,11 @@ export type SearchActionsType =
     | ReturnType<typeof setProfileIDAC>
 type InitialStateType = {
     min: number
-    max: number
-    searchName: string
+    max: number 
+    searchName: string |  undefined
     page: number
-    pageCount: number
-    sortProducts: string
-    profileID: string
+    pageCount: number |  undefined
+    sortProducts: string |  undefined
+    profileID: string |  undefined
 }
 

@@ -28,7 +28,7 @@ const Search = styled('div')(({theme}) => ({
     border: '1px solid rgba(0, 0, 0, 0.12)',
     backgroundColor: 'white',
     marginLeft: '0px',
-}));
+}))
 const SearchIconWrapper = styled('div')(({theme}) => ({
     padding: theme.spacing(0, 2),
     height: '100%',
@@ -37,20 +37,22 @@ const SearchIconWrapper = styled('div')(({theme}) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-}));
+}))
 const StyledInputBase = styled(InputBase)(({theme}) => ({
     color: 'inherit',
+    display: 'block',
     '& .MuiInputBase-input': {
-        padding: theme.spacing(1, 1, 1, 0),
+        boxSizing: 'border-box',
+        padding: theme.spacing(2.5, 2.5, 2.5, 0),
         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        width: 'auto',
+        width: '100%',
     },
-}));
+}))
 
 
 export const PacksList = () => {
     const dispatch = useAppDispatch()
-    const firstRender = useIsFirstRender();
+    const firstRender = useIsFirstRender()
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const status = useAppSelector(state => state.app.status)
     const packs = useAppSelector(state => state.packs)
@@ -63,33 +65,30 @@ export const PacksList = () => {
 
 
     const handleChangeToggleButton = (event: React.MouseEvent<HTMLElement>, newAlignment: string,) => {
-        if (newAlignment !== null) {
+        if (newAlignment !== undefined) {
             dispatch(setProfileIDAC(newAlignment))
         }
-    };
-
-
-    const [valueSlider, setValueSlider] = useState([0, 110]);
-    const debouncedSliderTerm = useDebounce(valueSlider, 500);
+    }
+    const [valueSlider, setValueSlider] = useState([search.min, search.max])
+    const debouncedSliderTerm = useDebounce(valueSlider, 500)
     const handleChangeSlider = (event: Event, newValue: number | number[]) => {
         setValueSlider(newValue as number[])
-    };
+    }
     useEffect(() => {
         if (!firstRender) {
             dispatch(setMinMaxAC(debouncedSliderTerm as number[]))
-        }
+        }  
     }, [debouncedSliderTerm])
-
-
-    const [valueSearch, setValueSearch] = useState('');
-    const debouncedSearchTerm = useDebounce(valueSearch, 500);
+    
+    const [valueSearch, setValueSearch] = useState(search.searchName)
+    const debouncedSearchTerm = useDebounce(valueSearch, 500)
     const handleChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
         setValueSearch(e.target.value)
-    };
+    }
     useEffect(() => {
         if (!firstRender) {
             dispatch(setSearchNameAC(debouncedSearchTerm as string))
-        }
+        } 
     }, [debouncedSearchTerm])
 
     const columns: GridColDef[] = [
@@ -146,7 +145,7 @@ export const PacksList = () => {
             renderCell: (cellValues) => {
                 return <Grid>
                     <IconButton
-                        disabled={status === 'loading'}
+                        disabled={status === 'loadingDataGrid'}
                         onClick={(event) => {
                             onBtnCardsClick(cellValues.id as string)
                         }}
@@ -155,7 +154,7 @@ export const PacksList = () => {
                     </IconButton>
                     {profileID === cellValues.row.userID &&
                     <IconButton
-                        disabled={status === 'loading'}
+                        disabled={status === 'loadingDataGrid'}
                         onClick={(event) => {
                             onBtnDeletePack(cellValues.id as string)
                         }}
@@ -164,7 +163,7 @@ export const PacksList = () => {
                     </IconButton>}
                     { profileID === cellValues.row.userID &&
                     <IconButton
-                        disabled={status === 'loading'}
+                        disabled={status === 'loadingDataGrid'}
                         onClick={(event) => {
                         onBtnUpdatePack(cellValues.id as string, 'Updat Name')
                     }}
@@ -174,7 +173,7 @@ export const PacksList = () => {
                 </Grid>
             }
         }
-    ];
+    ]
 
     const rows = packs.cardPacks.map(pack => (
         {
@@ -205,7 +204,7 @@ export const PacksList = () => {
             <Typography variant="h4">
                 Packs list
             </Typography>
-            <Button disabled={status === 'loading'}
+            <Button disabled={status === 'loadingDataGrid'}
                     variant="contained"
                     sx={btStyle}
                     onClick={() => onBtnAddPack('new test pack')}
@@ -226,7 +225,6 @@ export const PacksList = () => {
                     <StyledInputBase
                         onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeSearch(e)}
                         value={valueSearch}
-                        sx={{'& .MuiInputBase-input css-yz9k0d-MuiInputBase-input': {width: '100%'}}}
                         placeholder="Search…"
                     />
                 </Search>
@@ -267,13 +265,13 @@ export const PacksList = () => {
                 <DataGrid
                     // onSortModelChange={handleSortModelChange}
                     // sortingMode="server"
-                    loading={status === 'loading'}
+                    loading={status === 'loadingDataGrid'}
                     rowCount={packs.cardPacksTotalCount}
                     paginationMode="server"
                     page={search.page}
-                    onPageChange={(newPage) => dispatch(setPageAC(newPage))}
+                    onPageChange={newPage => dispatch(setPageAC(newPage))}
                     pageSize={search.pageCount}
-                    onPageSizeChange={(newPage) => dispatch(setPageCountAC(newPage))}
+                    onPageSizeChange={newPage => dispatch(setPageCountAC(newPage))}
                     autoHeight
                     rows={rows}
                     columns={columns}

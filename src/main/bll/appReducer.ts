@@ -66,7 +66,7 @@ export type InitialStateType = {
     // true когда приложение проинициализировалось (проверили юзера, настройки получили и т.д.)
     isInitialized: boolean
 }
-export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
+export type RequestStatusType = 'idle' | 'loading' | 'loadingDataGrid' | 'succeeded' | 'failed'
 export type SetAppErrorActionType = ReturnType<typeof setAppErrorAC>
 export type SetAppInfoActionType = ReturnType<typeof setAppInfoAC>
 export type SetAppStatusActionType = ReturnType<typeof setAppStatusAC>

@@ -27,7 +27,7 @@ export type GetStore = () => RootStateType
 
 // thunks
 export const getPacksTC = () => (dispatch: AppDispatchType, getStore: GetStore) => {
-    dispatch(setAppStatusAC('loading'))
+    dispatch(setAppStatusAC('loadingDataGrid'))
     const {min, max, searchName, page, pageCount, sortProducts, profileID} = getStore().search
     packsAPI.getPacks(min, max, searchName, page + 1, pageCount, sortProducts, profileID)
         .then(res => {
@@ -40,7 +40,7 @@ export const getPacksTC = () => (dispatch: AppDispatchType, getStore: GetStore) 
 }
 
 export const addPackTC = (name?: string) => (dispatch: AppDispatchType) => {
-    dispatch(setAppStatusAC('loading'))
+    dispatch(setAppStatusAC('loadingDataGrid'))
     packsAPI.addPack(name)
         .then(() => {
             dispatch(getPacksTC())
@@ -51,7 +51,7 @@ export const addPackTC = (name?: string) => (dispatch: AppDispatchType) => {
         })
 }
 export const deletePackTC = (packId: string) => (dispatch: AppDispatchType) => {
-    dispatch(setAppStatusAC('loading'))
+    dispatch(setAppStatusAC('loadingDataGrid'))
     packsAPI.deletePack(packId)
         .then(() => {
             dispatch(getPacksTC())
@@ -63,7 +63,7 @@ export const deletePackTC = (packId: string) => (dispatch: AppDispatchType) => {
 }
 
 export const updatePackTC = (packId: string, name: string) => (dispatch: AppDispatchType) => {
-    dispatch(setAppStatusAC('loading'))
+    dispatch(setAppStatusAC('loadingDataGrid'))
     packsAPI.updatePack(packId, name)
         .then(() => {
             dispatch(getPacksTC())
