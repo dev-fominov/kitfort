@@ -24,7 +24,7 @@ export const authAPI = {
         return instance.put<ChangeNameResponseType>(`auth/me`, data).then(res => res.data)
     },
     register(email: string, password: string) {
-        return instance.post<RegisterResponseType>(`auth/register`, {email, password}).then(res => res.data)
+        return instance.post<RegisterResponseType>(`auth/register`, { email, password }).then(res => res.data)
     },
     resetPassword(data: ResetPasswordParamsType) {
         return instance2.post<ResponseType>(`auth/forgot`, data).then(res => res.data)
@@ -39,12 +39,12 @@ export const authAPI = {
 
 export const packsAPI = {
     getPacks(min?: number,
-             max?: number,
-             searchName?: string,
-             page?: number,
-             pageCount?: number,
-             sortProducts?: string,
-             userId?: string) {
+        max?: number,
+        searchName?: string,
+        page?: number,
+        pageCount?: number,
+        sortProducts?: string,
+        userId?: string) {
         return instance.get<GetPacksResponseType>(`cards/pack?`
             + (max ? `min=${min}&max=${max}&` : '')
             + (searchName ? `packName=${searchName}&` : '')
@@ -56,16 +56,34 @@ export const packsAPI = {
     addPack(name?: string) {
         return instance.post(`cards/pack`, {
             cardsPack:
-                {name: name || 'new test pack', deckCover: '', private: false}
+                { name: name || 'new test pack', deckCover: '', private: false }
         })
     },
     deletePack(packId: string) {
         return instance.delete(`cards/pack?id=${packId}`)
     },
     updatePack(packId: string, name?: string) {
-        return instance.put(`cards/pack`, {cardsPack: {_id: packId, name: name || 'no name'}})
+        return instance.put(`cards/pack`, { cardsPack: { _id: packId, name: name || 'no name' } })
     },
+    getCard(cardsPack_id: string, searchName?:string, page?: number, pageCount?: number) {
+        return instance.get<GetCardsResponseType>(`cards/card?cardsPack_id=${cardsPack_id}`
+            + (searchName ? `&cardQuestion=${searchName}` : '')
+            + (page ? `&page=${page}` : '')
+            + (pageCount ? `&pageCount=${pageCount}` : ''))
+            .then(res => res.data)
+    },
+    addCard(cardsPack_id: string, question?: string, answer?: string) {
+        return instance.post(`cards/card`, { card: { cardsPack_id, question, answer } })
+    },
+    updateCard(_id: string, question?: string, answer?: string) {
+        return instance.put(`cards/card`, { card: { _id, question, answer } })
+    },
+    deleteCard(_id: string) {
+        return instance.delete(`cards/card?id=${_id}`)
+    }
 }
+
+
 
 // types
 export type LoginParamsType = {
@@ -144,6 +162,35 @@ export type PackType = {
     updated: string
     user_id: string
     user_name: string
+    __v: number
+    _id: string
+}
+
+export type GetCardsResponseType = {
+    cards: Array<CardType>
+    cardsTotalCount: number
+    maxGrade: number
+    minGrade: number
+    packUserId: string
+    page: number
+    pageCount: number
+    token: string
+    tokenDeathTime: number
+}
+
+export type CardType = {
+    answer: string
+    cardsPack_id: string
+    comments: string
+    created: string
+    grade: number
+    more_id: string
+    question: string
+    rating: number
+    shots: number
+    type: string
+    updated: string
+    user_id: string
     __v: number
     _id: string
 }

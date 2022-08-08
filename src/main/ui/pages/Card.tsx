@@ -3,25 +3,18 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import { InputBase, Slider, styled, Typography } from "@mui/material";
 import { PATH } from "./Pages";
-import { Navigate, NavLink } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector, useDebounce, useIsFirstRender } from "../../bll/hooks";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from '@mui/icons-material/Search';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import FileOpenIcon from '@mui/icons-material/FileOpen';
-import { addPackTC, deletePackTC, getPacksTC, setPackIdAC, updatePackTC } from '../../bll/packsReducer';
-import { setMinMaxAC, setPageAC, setPageCountAC, setProfileIDAC, setSearchNameAC } from '../../bll/searchReducer';
+import { setPageAC, setPageCountAC, setProfileIDAC, setSearchNameAC } from '../../bll/searchReducer';
+import { addCardTC, deleteCardTC, getCardTC, updateCardTC } from '../../bll/cardsReducer';
 
-
-const wrapperStyle = { height: '430px', width: '100%', marginTop: '36px' }
 const btStyle = { borderRadius: '30px' }
-const forgoPasswordTitleStyle = { textDecoration: 'none', color: 'black' }
-const signUpTitleStyle = { textDecoration: 'none' }
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -48,18 +41,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 
-export const PacksList = () => {
+export const Card = () => {
     const dispatch = useAppDispatch()
     const firstRender = useIsFirstRender();
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const status = useAppSelector(state => state.app.status)
-    const packs = useAppSelector(state => state.packs)
     const search = useAppSelector(state => state.search)
     const profileID = useAppSelector(state => state.profile.profile._id)
 
+    const pack_id = window.location.hash.split('/').slice(-1)[0]
+    const cards = useAppSelector(state => state.card)
+
     useEffect(() => {
-        dispatch(getPacksTC())
-    }, [search])
+        dispatch(getCardTC(pack_id))
+    }, [search, pack_id])
 
 
     const handleChangeToggleButton = (event: React.MouseEvent<HTMLElement>, newAlignment: string,) => {
@@ -67,19 +62,6 @@ export const PacksList = () => {
             dispatch(setProfileIDAC(newAlignment))
         }
     };
-
-
-    const [valueSlider, setValueSlider] = useState([0, 110]);
-    const debouncedSliderTerm = useDebounce(valueSlider, 500);
-    const handleChangeSlider = (event: Event, newValue: number | number[]) => {
-        setValueSlider(newValue as number[])
-    };
-    useEffect(() => {
-        if (!firstRender) {
-            dispatch(setMinMaxAC(debouncedSliderTerm as number[]))
-        }
-    }, [debouncedSliderTerm])
-
 
     const [valueSearch, setValueSearch] = useState('');
     const debouncedSearchTerm = useDebounce(valueSearch, 500);
@@ -94,8 +76,8 @@ export const PacksList = () => {
 
     const columns: GridColDef[] = [
         {
-            field: 'name',
-            headerName: 'Name',
+            field: 'question',
+            headerName: 'Question',
             flex: 4,
             minWidth: 150,
             headerAlign: 'center',
@@ -103,8 +85,8 @@ export const PacksList = () => {
             cellClassName: 'super-app-theme--cell'
         },
         {
-            field: 'cards',
-            headerName: 'Cards',
+            field: 'answer',
+            headerName: 'Answer',
             flex: 1,
             minWidth: 100,
             headerAlign: 'center',
@@ -122,8 +104,8 @@ export const PacksList = () => {
             cellClassName: 'super-app-theme--cell'
         },
         {
-            field: 'createdBy',
-            type: 'date',
+            field: 'grade',
+            type: 'rating',
             headerName: 'Created by',
             flex: 2,
             minWidth: 100,
@@ -145,19 +127,11 @@ export const PacksList = () => {
             cellClassName: 'super-app-theme--cell',
             renderCell: (cellValues: any) => {
                 return <Grid>
-                    <NavLink to={PATH.CARD + cellValues.id}>
-                        <IconButton
-                            disabled={status === 'loading'}
-                            color="primary">
-                            <FileOpenIcon fontSize="small" />
-                        </IconButton>
-                    </NavLink>
-
                     {profileID === cellValues.row.userID &&
                         <IconButton
                             disabled={status === 'loading'}
                             onClick={(event) => {
-                                onBtnDeletePack(cellValues.id as string)
+                                onBtnDeleteCard(pack_id, cellValues.id)
                             }}
                             color="primary">
                             <DeleteIcon fontSize="small" />
@@ -166,7 +140,7 @@ export const PacksList = () => {
                         <IconButton
                             disabled={status === 'loading'}
                             onClick={(event) => {
-                                onBtnUpdatePack(cellValues.id as string, 'Updat Name')
+                                onBtnUpdateCard(pack_id, cellValues.row.id, `Update question`, `Update answer`)
                             }}
                             color="primary">
                             <BorderColorIcon fontSize="small" />
@@ -176,21 +150,20 @@ export const PacksList = () => {
         }
     ];
 
-    const rows = packs.cardPacks.map(pack => (
+    const rows = cards.cards.map(card => (
         {
-            id: pack._id,
-            name: pack.name,
-            cards: pack.cardsCount,
-            lastUpdated: pack.updated,
-            createdBy: pack.created,
-            userID: pack.user_id
+            id: card._id,
+            answer: card.answer,
+            question: card.question,
+            lastUpdated: card.updated,
+            grade: card.grade,
+            userID: card.user_id
         }))
 
 
-    const onBtnDeletePack = (packId: string) => { dispatch(deletePackTC(packId)) }
-    const onBtnUpdatePack = (packId: string, name: string) => { dispatch(updatePackTC(packId, name)) }
-    const onBtnCardsClick = (packId: string) => { dispatch(setPackIdAC(packId)) }
-    const onBtnAddPack = (name: string) => dispatch(addPackTC(name))
+    const onBtnDeleteCard = (cardsPack_id: string, card_id: string) => { dispatch(deleteCardTC(cardsPack_id, card_id)) }
+    const onBtnUpdateCard = (cardsPack_id: string, card_id: string, question?: string, answer?: string) => { dispatch(updateCardTC(cardsPack_id, card_id, question, answer)) }
+    const onBtnAddCard = (cardsPack_id: string, question?: string, answer?: string) => dispatch(addCardTC(cardsPack_id, question, answer))
 
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN} />
@@ -203,13 +176,13 @@ export const PacksList = () => {
             sx={{ marginBottom: '40px' }}
         >
             <Typography variant="h4">
-                Packs list
+                Card list
             </Typography>
             <Button disabled={status === 'loading'}
                 variant="contained"
                 sx={btStyle}
-                onClick={() => onBtnAddPack('new test pack')}
-            >Add new pack</Button>
+                onClick={() => onBtnAddCard(pack_id, `new question`, `new answer`)}
+            >Add new card</Button>
 
         </Grid>
         <Grid container
@@ -231,36 +204,6 @@ export const PacksList = () => {
                     />
                 </Search>
             </Grid>
-            <Grid item xs={2}>
-                <Typography>
-                    Show packs cards
-                </Typography>
-                <ToggleButtonGroup
-                    fullWidth
-                    value={search.profileID}
-                    exclusive
-                    onChange={handleChangeToggleButton}
-                    color="primary"
-                >
-                    <ToggleButton value={profileID}>My</ToggleButton>
-                    <ToggleButton value={''}>All</ToggleButton>
-                </ToggleButtonGroup>
-            </Grid>
-            <Grid item xs={4}>
-                <Typography>
-                    Number of cards
-                </Typography>
-                <Grid container
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="center">
-                    <Slider
-                        value={valueSlider}
-                        onChange={handleChangeSlider}
-                        valueLabelDisplay="auto"
-                    />
-                </Grid>
-            </Grid>
         </Grid>
         <Grid sx={{ marginTop: '24px' }}>
             <Box sx={{ height: 372, width: '100%' }}>
@@ -268,7 +211,7 @@ export const PacksList = () => {
                     // onSortModelChange={handleSortModelChange}
                     // sortingMode="server"
                     loading={status === 'loading'}
-                    rowCount={packs.cardPacksTotalCount}
+                    rowCount={cards.cardsTotalCount}
                     paginationMode="server"
                     page={search.page}
                     onPageChange={(newPage: any) => dispatch(setPageAC(newPage))}
