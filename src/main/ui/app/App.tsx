@@ -29,6 +29,7 @@ export const App = () => {
                 <NavLink  to={PATH.NEW_PASSWORD}>New password</NavLink>
                 <NavLink  to={PATH.PACKS_LIST}>Packs List</NavLink>
                 <NavLink  to={'/card/62ec3ec7a756e14ba0675d7c'}>Card</NavLink>
+                <NavLink  to={PATH.ADD_NEW_CARD}>Add new card</NavLink>
             </div>
             {!isInitialized
                 ? <CircularProgress
