@@ -1,35 +1,35 @@
-import { ChangeEvent, useEffect, useState } from 'react'
+import {ChangeEvent, useEffect, useState} from 'react'
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import { InputBase, Slider, styled, Typography } from "@mui/material";
-import { PATH } from "./Pages";
-import { Navigate, NavLink } from "react-router-dom";
-import { useAppDispatch, useAppSelector, useDebounce, useIsFirstRender } from "../../bll/hooks";
+import {InputBase, Slider, styled, Typography} from "@mui/material";
+import {PATH} from "./Pages";
+import {Navigate} from "react-router-dom";
+import {useAppDispatch, useAppSelector, useDebounce, useIsFirstRender} from "../../bll/hooks";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from '@mui/icons-material/Search';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Box from '@mui/material/Box';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
-import { addPackTC, deletePackTC, getPacksTC, setPackIdAC, updatePackTC } from '../../bll/packsReducer';
-import { setMinMaxAC, setPageAC, setPageCountAC, setProfileIDAC, setSearchNameAC } from '../../bll/searchReducer';
+import {addPackTC, deletePackTC, getPacksTC, setPackIdAC, updatePackTC} from '../../bll/packsReducer';
+import {setMinMaxAC, setPageAC, setPageCountAC, setProfileIDAC, setSearchNameAC} from '../../bll/searchReducer';
 
 
-const wrapperStyle = { height: '430px', width: '100%', marginTop: '36px' }
-const btStyle = { borderRadius: '30px' }
-const forgoPasswordTitleStyle = { textDecoration: 'none', color: 'black' }
-const signUpTitleStyle = { textDecoration: 'none' }
+const wrapperStyle = {height: '430px', width: '100%', marginTop: '36px'}
+const btStyle = {borderRadius: '30px'}
+const forgoPasswordTitleStyle = {textDecoration: 'none', color: 'black'}
+const signUpTitleStyle = {textDecoration: 'none'}
 
-const Search = styled('div')(({ theme }) => ({
+const Search = styled('div')(({theme}) => ({
     position: 'relative',
     border: '1px solid rgba(0, 0, 0, 0.12)',
     backgroundColor: 'white',
     marginLeft: '0px',
 }));
-const SearchIconWrapper = styled('div')(({ theme }) => ({
+const SearchIconWrapper = styled('div')(({theme}) => ({
     padding: theme.spacing(0, 2),
     height: '100%',
     position: 'absolute',
@@ -38,19 +38,20 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
 }));
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
+const StyledInputBase = styled(InputBase)(({theme}) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
-        padding: theme.spacing(1, 1, 1, 0),
+        boxSizing: 'border-box',
+        padding: theme.spacing(2.5, 2.5, 2.5, 0),
         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        width: 'auto',
+        width: '100%',
     },
-}));
+}))
 
 
 export const PacksList = () => {
     const dispatch = useAppDispatch()
-    const firstRender = useIsFirstRender();
+    const firstRender = useIsFirstRender()
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const status = useAppSelector(state => state.app.status)
     const packs = useAppSelector(state => state.packs)
@@ -63,29 +64,26 @@ export const PacksList = () => {
 
 
     const handleChangeToggleButton = (event: React.MouseEvent<HTMLElement>, newAlignment: string,) => {
-        if (newAlignment !== null) {
+        if (newAlignment !== undefined) {
             dispatch(setProfileIDAC(newAlignment))
         }
-    };
-
-
-    const [valueSlider, setValueSlider] = useState([0, 110]);
-    const debouncedSliderTerm = useDebounce(valueSlider, 500);
+    }
+    const [valueSlider, setValueSlider] = useState([search.min, search.max])
+    const debouncedSliderTerm = useDebounce(valueSlider, 500)
     const handleChangeSlider = (event: Event, newValue: number | number[]) => {
         setValueSlider(newValue as number[])
-    };
+    }
     useEffect(() => {
         if (!firstRender) {
             dispatch(setMinMaxAC(debouncedSliderTerm as number[]))
         }
     }, [debouncedSliderTerm])
 
-
-    const [valueSearch, setValueSearch] = useState('');
-    const debouncedSearchTerm = useDebounce(valueSearch, 500);
+    const [valueSearch, setValueSearch] = useState(search.searchName)
+    const debouncedSearchTerm = useDebounce(valueSearch, 500)
     const handleChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
         setValueSearch(e.target.value)
-    };
+    }
     useEffect(() => {
         if (!firstRender) {
             dispatch(setSearchNameAC(debouncedSearchTerm as string))
@@ -143,38 +141,38 @@ export const PacksList = () => {
             headerAlign: 'center',
             headerClassName: 'super-app-theme--header',
             cellClassName: 'super-app-theme--cell',
-            renderCell: (cellValues: any) => {
+            renderCell: (cellValues) => {
                 return <Grid>
-                    <NavLink to={PATH.CARD + cellValues.id}>
-                        <IconButton
-                            disabled={status === 'loading'}
-                            color="primary">
-                            <FileOpenIcon fontSize="small" />
-                        </IconButton>
-                    </NavLink>
-
+                    <IconButton
+                        disabled={status === 'loadingDataGrid'}
+                        onClick={(event) => {
+                            onBtnCardsClick(cellValues.id as string)
+                        }}
+                        color="primary">
+                        <FileOpenIcon fontSize="small"/>
+                    </IconButton>
                     {profileID === cellValues.row.userID &&
-                        <IconButton
-                            disabled={status === 'loading'}
-                            onClick={(event) => {
-                                onBtnDeletePack(cellValues.id as string)
-                            }}
-                            color="primary">
-                            <DeleteIcon fontSize="small" />
-                        </IconButton>}
-                    {profileID === cellValues.row.userID &&
-                        <IconButton
-                            disabled={status === 'loading'}
-                            onClick={(event) => {
-                                onBtnUpdatePack(cellValues.id as string, 'Updat Name')
-                            }}
-                            color="primary">
-                            <BorderColorIcon fontSize="small" />
+                    <IconButton
+                        disabled={status === 'loadingDataGrid'}
+                        onClick={(event) => {
+                            onBtnDeletePack(cellValues.id as string)
+                        }}
+                        color="primary">
+                        <DeleteIcon fontSize="small"/>
+                    </IconButton>}
+                    { profileID === cellValues.row.userID &&
+                    <IconButton
+                        disabled={status === 'loadingDataGrid'}
+                        onClick={(event) => {
+                        onBtnUpdatePack(cellValues.id as string, 'Updat Name')
+                    }}
+                        color="primary">
+                        <BorderColorIcon fontSize="small"/>
                         </IconButton>}
                 </Grid>
             }
         }
-    ];
+    ]
 
     const rows = packs.cardPacks.map(pack => (
         {
@@ -187,46 +185,45 @@ export const PacksList = () => {
         }))
 
 
-    const onBtnDeletePack = (packId: string) => { dispatch(deletePackTC(packId)) }
-    const onBtnUpdatePack = (packId: string, name: string) => { dispatch(updatePackTC(packId, name)) }
-    const onBtnCardsClick = (packId: string) => { dispatch(setPackIdAC(packId)) }
+    const onBtnDeletePack = (packId: string) => {dispatch(deletePackTC(packId))}
+    const onBtnUpdatePack = (packId: string, name: string) => {dispatch(updatePackTC(packId, name))}
+    const onBtnCardsClick = (packId: string) => {dispatch(setPackIdAC(packId))}
     const onBtnAddPack = (name: string) => dispatch(addPackTC(name))
 
     if (!isLoggedIn) {
-        return <Navigate to={PATH.LOGIN} />
+        return <Navigate to={PATH.LOGIN}/>
     }
 
-    return <Grid sx={{ height: 'auto', width: '100%', marginTop: '36px' }}>
+    return <Grid sx={{height: 'auto', width: '100%', marginTop: '36px'}}>
         <Grid container
-            justifyContent="space-between"
-            alignItems="center"
-            sx={{ marginBottom: '40px' }}
+              justifyContent="space-between"
+              alignItems="center"
+              sx={{marginBottom: '40px'}}
         >
             <Typography variant="h4">
                 Packs list
             </Typography>
             <Button disabled={status === 'loading'}
-                variant="contained"
-                sx={btStyle}
-                onClick={() => onBtnAddPack('new test pack')}
+                    variant="contained"
+                    sx={btStyle}
+                    onClick={() => onBtnAddPack('new test pack')}
             >Add new pack</Button>
 
         </Grid>
         <Grid container
-            direction="row"
-            spacing={5}>
+              direction="row"
+              spacing={5}>
             <Grid item xs={6}>
                 <Typography>
                     Search
                 </Typography>
                 <Search>
                     <SearchIconWrapper>
-                        <SearchIcon />
+                        <SearchIcon/>
                     </SearchIconWrapper>
                     <StyledInputBase
                         onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeSearch(e)}
                         value={valueSearch}
-                        sx={{ '& .MuiInputBase-input css-yz9k0d-MuiInputBase-input': { width: '100%' } }}
                         placeholder="Search…"
                     />
                 </Search>
@@ -251,9 +248,9 @@ export const PacksList = () => {
                     Number of cards
                 </Typography>
                 <Grid container
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="center">
+                      direction="row"
+                      justifyContent="center"
+                      alignItems="center">
                     <Slider
                         value={valueSlider}
                         onChange={handleChangeSlider}
@@ -262,18 +259,18 @@ export const PacksList = () => {
                 </Grid>
             </Grid>
         </Grid>
-        <Grid sx={{ marginTop: '24px' }}>
-            <Box sx={{ height: 372, width: '100%' }}>
+        <Grid sx={{marginTop: '24px'}}>
+            <Box sx={{height: 372, width: '100%'}}>
                 <DataGrid
                     // onSortModelChange={handleSortModelChange}
                     // sortingMode="server"
-                    loading={status === 'loading'}
+                    loading={status === 'loadingDataGrid'}
                     rowCount={packs.cardPacksTotalCount}
                     paginationMode="server"
                     page={search.page}
-                    onPageChange={(newPage: any) => dispatch(setPageAC(newPage))}
+                    onPageChange={newPage => dispatch(setPageAC(newPage))}
                     pageSize={search.pageCount}
-                    onPageSizeChange={(newPage: any) => dispatch(setPageCountAC(newPage))}
+                    onPageSizeChange={newPage => dispatch(setPageCountAC(newPage))}
                     autoHeight
                     rows={rows}
                     columns={columns}
@@ -282,8 +279,8 @@ export const PacksList = () => {
                     disableColumnMenu
                     disableSelectionOnClick
                     sx={{
-                        '& .super-app-theme--header': { backgroundColor: 'rgba(86,164,31,0.12)' },
-                        '& .super-app-theme--cell': { display: 'flex', justifyContent: 'center', },
+                        '& .super-app-theme--header': {backgroundColor: 'rgba(86,164,31,0.12)'},
+                        '& .super-app-theme--cell': {display: 'flex', justifyContent: 'center',},
                     }}
                 />
             </Box>
