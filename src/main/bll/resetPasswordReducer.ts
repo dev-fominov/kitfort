@@ -1,12 +1,12 @@
-import {AxiosError} from 'axios';
-import {authAPI} from "../api/api";
-import {AppActionsType, AppDispatchType, AppThunkType} from "./store";
-import {errorTC, setAppInfoAC, setAppStatusAC} from "./appReducer";
+import { AxiosError } from 'axios';
+import { authAPI } from "../api/api";
+import { AppActionsType, AppThunkType } from "./store";
+import { errorTC, setAppErrorAC, setAppInfoAC, setAppStatusAC } from "./appReducer";
 
 const initialState: InitialStateType = {
     email: null,
     from: "test-front-admin <ai73a@yandex.by>",
-    //message: `<div style="padding: 15px">Password recovery link: <a href='https://dev-fominov.github.io/kitfort/#/new-password/$token$'>link</a></div>`,
+    // message: `<div style="padding: 15px">Password recovery link: <a href='https://dev-fominov.github.io/kitfort/#/new-password/$token$'>link</a></div>`,
     message: `<div style="padding: 15px">Password recovery link: <a href='http://localhost:3000/kitfort#/new-password/$token$'>link</a></div>`,
 }
 
@@ -24,7 +24,7 @@ export const setEmailAC = (email: string) =>
 
 
 // thunks
-export const resetPasswordTC = (email: string): AppThunkType => (dispatch: AppDispatchType) => {
+export const resetPasswordTC = (email: string): AppThunkType => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.resetPassword({
         email,

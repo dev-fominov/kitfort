@@ -28,7 +28,7 @@ const Search = styled('div')(({theme}) => ({
     border: '1px solid rgba(0, 0, 0, 0.12)',
     backgroundColor: 'white',
     marginLeft: '0px',
-}))
+}));
 const SearchIconWrapper = styled('div')(({theme}) => ({
     padding: theme.spacing(0, 2),
     height: '100%',
@@ -37,7 +37,7 @@ const SearchIconWrapper = styled('div')(({theme}) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-}))
+}));
 const StyledInputBase = styled(InputBase)(({theme}) => ({
     color: 'inherit',
     display: 'block',
@@ -225,6 +225,7 @@ export const PacksList = () => {
                     <StyledInputBase
                         onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeSearch(e)}
                         value={valueSearch}
+                        sx={{'& .MuiInputBase-input css-yz9k0d-MuiInputBase-input': {width: '100%'}}}
                         placeholder="Search…"
                     />
                 </Search>
