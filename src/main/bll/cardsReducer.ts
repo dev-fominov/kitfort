@@ -5,6 +5,8 @@ import { errorTC, setAppStatusAC } from "./appReducer";
 
 const initialState: InitialStateType = {
 	cards: [],
+	grate: 0,
+	shots: 0,
 	// cardQuestion: '',
 	// page: 1,
 	// pageCount: 5,
@@ -15,12 +17,15 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Car
 	switch (action.type) {
 		case 'card/SET-CARD':
 			return { ...state, cards: action.cards }
+		case 'card/SET-GRATE':
+			return { ...state, grate: action.grate, shots: action.shots }
 		default:
 			return state
 	}
 }
 // actions
 export const setCardAC = (cards: Array<CardType>) => ({ type: 'card/SET-CARD', cards } as const)
+export const setGrateAC = (grate: any, shots: any) => ({ type: 'card/SET-GRATE', grate, shots } as const)
 export type GetStore = () => RootStateType
 
 
@@ -78,11 +83,13 @@ export const updateCardTC = (cardsPack_id: string, card_id: string, question?: s
 		})
 }
 
-export const updateGradeTC = (grade: number, card_id: string):AppThunkType => (dispatch) => {
+export const updateGradeTC = (grade: number, card_id: string): AppThunkType => (dispatch) => {
 	dispatch(setAppStatusAC('loading'))
 	packsAPI.updateGrade(grade, card_id)
-		.then(() => {
-			// dispatch(getCardTC(cardsPack_id))
+		.then((res) => {
+			let grade = res.data.updatedGrade.grade
+			let shots = res.data.updatedGrade.shots
+			dispatch(setGrateAC(grade, shots))
 			dispatch(setAppStatusAC('succeeded'))
 		})
 		.catch((e: AxiosError<{ error: string }>) => {
@@ -92,9 +99,11 @@ export const updateGradeTC = (grade: number, card_id: string):AppThunkType => (d
 
 
 // types
-export type CardsActionsType = ReturnType<typeof setCardAC>
+export type CardsActionsType = ReturnType<typeof setCardAC> | ReturnType<typeof setGrateAC>
 type InitialStateType = {
 	cards: Array<CardType>
+	grate: number
+	shots: number
 	// cardQuestion: string
 	// page:  number
 	// pageCount: number

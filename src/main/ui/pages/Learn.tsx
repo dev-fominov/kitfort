@@ -33,6 +33,7 @@ export const Learn = () => {
 	const [first, setFirst] = useState<boolean>(true);
 	const [gradeQuestion, setGradeQuestion] = useState<any>(1);
 	const { cards } = useAppSelector(store => store.cards);
+	const shots = useAppSelector(store => store.cards.shots);
 	const id = window.location.hash.split('/').slice(-1)[0]
 
 	console.log('id= ' + id)
@@ -90,7 +91,7 @@ export const Learn = () => {
   };
 
 	console.log(card)
-	
+
 	return (
 		<Grid>
 			<Grid container
@@ -100,7 +101,7 @@ export const Learn = () => {
 				<h2>Learn: <span>Learn title</span></h2>
 			</Grid>
 			<Paper elevation={10} style={paperStyle}>
-				<Typography style={typographyStyle}>Количество попыток ответов на вопрос: { }</Typography>
+				<Typography style={typographyStyle}>Количество попыток ответов на вопрос: {shots}</Typography>
 				<Typography><b>Question: </b> {card.question}</Typography>
 
 				{isChecked && (
