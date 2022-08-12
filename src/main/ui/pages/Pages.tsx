@@ -9,6 +9,8 @@ import { LoginMUI } from "./LoginMUI";
 import { AddNewCard } from './AddNewCard'
 import { useAppSelector } from '../../bll/hooks'
 import { PacksList } from './packsList/PacksList'
+import { Learn } from './Learn'
+
 
 export const PATH = {
     LOGIN: '/login',
@@ -20,6 +22,7 @@ export const PATH = {
     CARD: `/packs-list/cards*`,
     PACK: '/pack',
     ADD_NEW_CARD: '/new-card',
+    LEARN: '/learn/',
 }
 
 export const Pages = () => {
@@ -34,6 +37,7 @@ export const Pages = () => {
                 <Route path={PATH.RESET_PASSWORD} element={<ResetPassword />} />
                 <Route path={PATH.NEW_PASSWORD} element={<NewPassword />} />
                 <Route path={'packs-list/cards/:cardsPack_id'} element={<Card />} />
+                <Route path={'/learn/*'} element={<Learn />} />
                 <Route path={PATH.PACKS_LIST} element={<PacksList />} />
                 <Route path={PATH.ADD_NEW_CARD} element={<AddNewCard />} />
                 <Route path={'/*'} element={<Error404 />} />

@@ -1,10 +1,12 @@
-import {useNavigate} from "react-router-dom"
-import {DataGrid, GridColDef, GridSortModel} from '@mui/x-data-grid'
-import {Actions} from './Actions'
-import {setPackNameIdAC} from '../../../../bll/packsReducer'
-import {setPageAC, setPageCountAC, setSortProductsAC} from '../../../../bll/searchReducer'
-import {useAppDispatch, useAppSelector} from '../../../../bll/hooks'
-import {Box} from "@mui/material"
+import { useNavigate } from "react-router-dom"
+import { DataGrid, GridColDef, GridSortModel } from '@mui/x-data-grid'
+import { Actions } from './Actions'
+import { setPackNameIdAC } from '../../../../bll/packsReducer'
+import { setPageAC, setPageCountAC, setSortProductsAC } from '../../../../bll/searchReducer'
+import { useAppDispatch, useAppSelector } from '../../../../bll/hooks'
+import { Box, Grid } from "@mui/material"
+import { NavLink } from "react-router-dom"
+import { PATH } from "../../Pages"
 
 export const Table = () => {
     const dispatch = useAppDispatch()
@@ -12,7 +14,7 @@ export const Table = () => {
     const status = useAppSelector(state => state.app.status)
     const packs = useAppSelector(state => state.packs)
     const search = useAppSelector(state => state.search)
-    
+
     const columns: GridColDef[] = [
         {
             field: 'name',
@@ -20,7 +22,14 @@ export const Table = () => {
             flex: 4,
             minWidth: 150,
             headerAlign: 'center',
-            cellClassName: 'super-app-theme--cell'
+            cellClassName: 'super-app-theme--cell',
+            renderCell: (cellValues: any) => {
+                return <Grid>
+                    <NavLink to={PATH.CARD + cellValues.id}>
+                        {cellValues.value}
+                    </NavLink>
+                </Grid>
+            }
         },
         {
             field: 'cardsCount',
@@ -33,7 +42,7 @@ export const Table = () => {
         {
             field: 'updated',
             type: 'dateTime',
-            valueGetter: ({value}) => value && new Date(value),
+            valueGetter: ({ value }) => value && new Date(value),
             headerName: 'Last Updated',
             flex: 2,
             minWidth: 100,
@@ -43,7 +52,7 @@ export const Table = () => {
         {
             field: 'created',
             type: 'dateTime',
-            valueGetter: ({value}) => value && new Date(value),
+            valueGetter: ({ value }) => value && new Date(value),
             headerName: 'Created by',
             flex: 2,
             minWidth: 100,
@@ -62,7 +71,7 @@ export const Table = () => {
             minWidth: 100,
             headerAlign: 'center',
             cellClassName: 'super-app-theme--cell',
-            renderCell: (cellValues) => <Actions cellValues={cellValues}/>
+            renderCell: (cellValues) => <Actions cellValues={cellValues} />
         }
     ]
 
@@ -85,30 +94,30 @@ export const Table = () => {
         dispatch(setSortProductsAC((sortModel[0].sort === "asc" ? 1 : 0) + sortModel[0].field))
     }
 
-    return <Box sx={{height: 372, width: '100%'}}>
-    <DataGrid
-        sortingOrder={['desc', 'asc']}
-        onSortModelChange={handleSortModelChange}
-        sortingMode="server"
-        loading={status === 'loadingDataGrid'}
-        rowCount={packs.cardPacksTotalCount}
-        paginationMode="server"
-        page={search.page}
-        onPageChange={newPage => dispatch(setPageAC(newPage))}
-        pageSize={search.pageCount}
-        onPageSizeChange={newPage => dispatch(setPageCountAC(newPage))}
-        autoHeight
-        rows={rows}
-        columns={columns}
-        rowsPerPageOptions={[5, 10, 15]}
-        onRowClick={handleRowClick}
-        checkboxSelection={false}
-        disableColumnMenu
-        disableSelectionOnClick
-        sx={{
-            '& .MuiDataGrid-columnHeaders': {backgroundColor: "rgba(86,164,31,0.12)"},
-            '& .super-app-theme--cell': {display: 'flex', justifyContent: 'center',},
-        }}
-    />
+    return <Box sx={{ height: 372, width: '100%' }}>
+        <DataGrid
+            sortingOrder={['desc', 'asc']}
+            onSortModelChange={handleSortModelChange}
+            sortingMode="server"
+            loading={status === 'loadingDataGrid'}
+            rowCount={packs.cardPacksTotalCount}
+            paginationMode="server"
+            page={search.page}
+            onPageChange={newPage => dispatch(setPageAC(newPage))}
+            pageSize={search.pageCount}
+            onPageSizeChange={newPage => dispatch(setPageCountAC(newPage))}
+            autoHeight
+            rows={rows}
+            columns={columns}
+            rowsPerPageOptions={[5, 10, 15]}
+            onRowClick={handleRowClick}
+            checkboxSelection={false}
+            disableColumnMenu
+            disableSelectionOnClick
+            sx={{
+                '& .MuiDataGrid-columnHeaders': { backgroundColor: "rgba(86,164,31,0.12)" },
+                '& .super-app-theme--cell': { display: 'flex', justifyContent: 'center', },
+            }}
+        />
     </Box>
 }

@@ -1,14 +1,13 @@
 import { AxiosError } from 'axios';
 import { CardType, packsAPI } from "../api/api";
-import { AppDispatchType, RootStateType } from "./store";
+import { AppDispatchType, AppThunkType, RootStateType } from "./store";
 import { errorTC, setAppOpenDiologsAC, setAppStatusAC } from "./appReducer";
 
 const initialState: InitialStateType = {
 	cards: [],
 	card: {},
-	// cardQuestion: '',
-	// page: 1,
-	// pageCount: 5,
+	grate: 0,
+	shots: 0,
 	cardsTotalCount: 0
 }
 
@@ -17,7 +16,9 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Car
 		case 'card/SET-CARDS':
 			return { ...state, cards: action.cards }
 		case 'card/SET-CARD-PARAMS':
-			return { ...state, card: {...action.card} }
+			return { ...state, card: { ...action.card } }
+		case 'card/SET-GRATE':
+			return { ...state, grate: action.grate, shots: action.shots }
 		default:
 			return state
 	}
@@ -25,12 +26,14 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Car
 // actions
 export const setCardAC = (cards: Array<CardType>) => ({ type: 'card/SET-CARDS', cards } as const)
 export const setCardParamsAC = (card: any) => ({ type: 'card/SET-CARD-PARAMS', card } as const)
+export const setGrateAC = (grate: any, shots: any) => ({ type: 'card/SET-GRATE', grate, shots } as const)
 export type GetStore = () => RootStateType
 
 
 // thunks
 export const getCardTC = (cardsPack_id: string) => (dispatch: AppDispatchType, getStore: GetStore) => {
 	dispatch(setAppStatusAC('loadingDataGrid'))
+	console.log(cardsPack_id)
 	const { searchName, page, pageCount } = getStore().search
 	packsAPI.getCard(cardsPack_id, searchName, page + 1, pageCount)
 		.then(res => {
@@ -82,15 +85,28 @@ export const updateCardTC = (cardsPack_id: string, card_id: string, question?: s
 		})
 }
 
+export const updateGradeTC = (grade: number, card_id: string): AppThunkType => (dispatch) => {
+	dispatch(setAppStatusAC('loading'))
+	packsAPI.updateGrade(grade, card_id)
+		.then((res) => {
+			let grade = res.data.updatedGrade.grade
+			let shots = res.data.updatedGrade.shots
+			dispatch(setGrateAC(grade, shots))
+			dispatch(setAppStatusAC('succeeded'))
+		})
+		.catch((e: AxiosError<{ error: string }>) => {
+			dispatch(errorTC(e))
+		})
+}
+
 
 // types
-export type CardsActionsType = ReturnType<typeof setCardAC> | ReturnType<typeof setCardParamsAC>
+
+export type CardsActionsType = ReturnType<typeof setCardAC> | ReturnType<typeof setCardParamsAC> | ReturnType<typeof setGrateAC>
 type InitialStateType = {
 	cards: Array<CardType>
 	card: any
-	// cardQuestion: string
-	// page:  number
-	// pageCount: number
+	grate: number
+	shots: number
 	cardsTotalCount: number
 }
-

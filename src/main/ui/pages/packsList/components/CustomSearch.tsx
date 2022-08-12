@@ -1,16 +1,16 @@
-import {Grid, InputBase, styled, Typography} from "@mui/material"
-import {useAppDispatch, useAppSelector, useDebounce, useIsFirstRender} from "../../../../bll/hooks"
-import {ChangeEvent, useEffect, useState} from "react"
-import {setSearchNameAC} from "../../../../bll/searchReducer"
+import { Grid, InputBase, styled, Typography } from "@mui/material"
+import { useAppDispatch, useAppSelector, useDebounce, useIsFirstRender } from "../../../../bll/hooks"
+import { ChangeEvent, useEffect, useState } from "react"
+import { setSearchNameAC } from "../../../../bll/searchReducer"
 import SearchIcon from '@mui/icons-material/Search';
 
-const Search = styled('div')(({theme}) => ({
+const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     border: '1px solid rgba(0, 0, 0, 0.12)',
     backgroundColor: 'white',
     marginLeft: '0px',
 }));
-const SearchIconWrapper = styled('div')(({theme}) => ({
+const SearchIconWrapper = styled('div')(({ theme }) => ({
     padding: theme.spacing(0, 2),
     height: '100%',
     position: 'absolute',
@@ -19,7 +19,7 @@ const SearchIconWrapper = styled('div')(({theme}) => ({
     alignItems: 'center',
     justifyContent: 'center',
 }));
-const StyledInputBase = styled(InputBase)(({theme}) => ({
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     display: 'block',
     '& .MuiInputBase-input': {
@@ -34,7 +34,7 @@ export const CustomSearch = () => {
     const firstRender = useIsFirstRender()
     const dispatch = useAppDispatch()
     const search = useAppSelector(state => state.search)
-    
+
     const [valueSearch, setValueSearch] = useState(search.searchName)
     const debouncedSearchTerm = useDebounce(valueSearch, 500)
     const handleChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
@@ -52,12 +52,12 @@ export const CustomSearch = () => {
         </Typography>
         <Search>
             <SearchIconWrapper>
-                <SearchIcon/>
+                <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
                 onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeSearch(e)}
                 value={valueSearch}
-                sx={{'& .MuiInputBase-input css-yz9k0d-MuiInputBase-input': {width: '100%'}}}
+                sx={{ '& .MuiInputBase-input css-yz9k0d-MuiInputBase-input': { width: '100%' } }}
                 placeholder="Search…"
             />
         </Search>

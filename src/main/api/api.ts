@@ -65,7 +65,7 @@ export const packsAPI = {
     updatePack(packId: string, name?: string, privateValue?: boolean) {
         return instance.put(`cards/pack`, { cardsPack: { _id: packId, name,  private: privateValue} })
     },
-    getCard(cardsPack_id: string, searchName?:string, page?: number, pageCount?: number) {
+    getCard(cardsPack_id: string | undefined, searchName?:string, page?: number, pageCount?: number) {
         return instance.get<GetCardsResponseType>(`cards/card?cardsPack_id=${cardsPack_id}`
             + (searchName ? `&cardQuestion=${searchName}` : '')
             + (page ? `&page=${page}` : '')
@@ -80,6 +80,9 @@ export const packsAPI = {
     },
     deleteCard(_id: string) {
         return instance.delete(`cards/card?id=${_id}`)
+    },
+    updateGrade(grade: number, card_id: string) {
+        return instance.put(`cards/grade`, { grade, card_id })
     }
 }
 

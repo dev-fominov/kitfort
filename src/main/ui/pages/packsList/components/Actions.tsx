@@ -1,10 +1,12 @@
-import {Grid, IconButton} from "@mui/material"
-import {setAppOpenDiologsAC} from "../../../../bll/appReducer"
-import {useAppDispatch, useAppSelector} from "../../../../bll/hooks"
-import {setPackNameIdAC} from "../../../../bll/packsReducer"
+import { Grid, IconButton } from "@mui/material"
+import { setAppOpenDiologsAC } from "../../../../bll/appReducer"
+import { useAppDispatch, useAppSelector } from "../../../../bll/hooks"
+import { setPackNameIdAC } from "../../../../bll/packsReducer"
 import DeleteIcon from '@mui/icons-material/Delete'
 import BorderColorIcon from '@mui/icons-material/BorderColor'
 import FileOpenIcon from '@mui/icons-material/FileOpen'
+import { NavLink } from "react-router-dom"
+import { PATH } from "../../Pages"
 
 export const Actions = (props: any) => {
     const dispatch = useAppDispatch()
@@ -22,25 +24,32 @@ export const Actions = (props: any) => {
     const onBtnCardsClick = (packId: string) => dispatch(setPackNameIdAC(packId))
 
     return <Grid>
-        <IconButton
+        <NavLink to={PATH.LEARN + props.cellValues.id}>
+            <IconButton
+                disabled={status === 'loadingDataGrid'}
+                color="primary">
+                <FileOpenIcon fontSize="small" />
+            </IconButton>
+        </NavLink>
+        {/* <IconButton
             disabled={status === 'loadingDataGrid'}
-            onClick={() => {onBtnCardsClick(props.cellValues.id)}}
+            onClick={() => { onBtnCardsClick(props.cellValues.id) }}
             color="primary">
-            <FileOpenIcon fontSize="small"/>
-        </IconButton>
-        
+            <FileOpenIcon fontSize="small" />
+        </IconButton> */}
+
         {profileID === props.cellValues.row.userID && <IconButton
             disabled={status === 'loadingDataGrid'}
-            onClick={() => {onBtnDeletePack(props.cellValues.id, props.cellValues.row.name)}}
+            onClick={() => { onBtnDeletePack(props.cellValues.id, props.cellValues.row.name) }}
             color="primary">
-          <DeleteIcon fontSize="small"/>
+            <DeleteIcon fontSize="small" />
         </IconButton>}
-        
+
         {profileID === props.cellValues.row.userID && <IconButton
             disabled={status === 'loadingDataGrid'}
-            onClick={() => {onBtnUpdatePack(props.cellValues.id, props.cellValues.row.name)}}
+            onClick={() => { onBtnUpdatePack(props.cellValues.id, props.cellValues.row.name) }}
             color="primary">
-          <BorderColorIcon fontSize="small"/>
+            <BorderColorIcon fontSize="small" />
         </IconButton>}
     </Grid>
 }

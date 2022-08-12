@@ -1,12 +1,12 @@
-import {applyMiddleware, combineReducers, legacy_createStore as createStore} from 'redux'
-import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk'
-import {AuthActionsType, authReducer} from "./authReducer";
-import {ActionsTypeApp, appReducer} from "./appReducer";
-import {RegisterActionType, registerReducer} from './registerReducer';
-import {ResetPasswordActionsType, resetPasswordReducer} from "./resetPasswordReducer";
-import {ProfileActionsType, profileReducer} from "./profileReducer";
-import {packsReducer, PacksActionsType} from './packsReducer';
-import {searchReducer, SearchActionsType} from './searchReducer';
+import { applyMiddleware, combineReducers, legacy_createStore as createStore } from 'redux'
+import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk'
+import { AuthActionsType, authReducer } from "./authReducer";
+import { ActionsTypeApp, appReducer } from "./appReducer";
+import { RegisterActionType, registerReducer } from './registerReducer';
+import { ResetPasswordActionsType, resetPasswordReducer } from "./resetPasswordReducer";
+import { ProfileActionsType, profileReducer } from "./profileReducer";
+import { packsReducer, PacksActionsType } from './packsReducer';
+import { searchReducer, SearchActionsType } from './searchReducer';
 import { CardsActionsType, cardsReducer } from './cardsReducer';
 // import { CardsActionsType, cardsReducer } from './cardsReducer';
 
@@ -17,7 +17,7 @@ export const rootReducer = combineReducers({
     register: registerReducer,
     resetPassword: resetPasswordReducer,
     packs: packsReducer,
-    card: cardsReducer,
+    cards: cardsReducer,
     search: searchReducer
 })
 

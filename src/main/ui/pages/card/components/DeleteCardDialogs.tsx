@@ -1,17 +1,17 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import {CustomizedDialogs} from '../../../common/CustomizedDialogs';
-import {Grid} from '@mui/material';
-import {useAppDispatch, useAppSelector} from '../../../../bll/hooks';
-import {deleteCardTC} from '../../../../bll/cardsReducer';
+import { CustomizedDialogs } from '../../../common/CustomizedDialogs';
+import { Grid } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../../../../bll/hooks';
+import { deleteCardTC } from '../../../../bll/cardsReducer';
 
 
 export function DeleteCardDialogs() {
     const dispatch = useAppDispatch()
     const status = useAppSelector(state => state.app.status)
     const pack = useAppSelector(state => state.packs)
-    const card = useAppSelector(state => state.card.card)
+    const card = useAppSelector(state => state.cards.card)
 
     return (
         <div>
@@ -23,11 +23,11 @@ export function DeleteCardDialogs() {
                             : card.question}</b>?
                     </Typography>
                     <Button type={'submit'}
-                            disabled={status === 'loading'}
-                            variant={'contained'}
-                            color={'error'}
-                            onClick={()=>dispatch(deleteCardTC(pack.packId, card.card_id))}
-                            fullWidth>Delete</Button>
+                        disabled={status === 'loading'}
+                        variant={'contained'}
+                        color={'error'}
+                        onClick={() => dispatch(deleteCardTC(pack.packId, card.card_id))}
+                        fullWidth>Delete</Button>
                 </Grid>
             </CustomizedDialogs>
         </div>

@@ -1,18 +1,18 @@
-import {DataGrid, GridColDef, GridRenderCellParams, GridSortModel} from '@mui/x-data-grid'
-import {setPageAC, setPageCountAC, setSortProductsAC} from '../../../../bll/searchReducer'
-import {useAppDispatch, useAppSelector} from '../../../../bll/hooks'
-import {Box, Rating} from "@mui/material"
-import {ActionsCard} from "./ActionsCard"
+import { DataGrid, GridColDef, GridRenderCellParams, GridSortModel } from '@mui/x-data-grid'
+import { setPageAC, setPageCountAC, setSortProductsAC } from '../../../../bll/searchReducer'
+import { useAppDispatch, useAppSelector } from '../../../../bll/hooks'
+import { Box, Rating } from "@mui/material"
+import { ActionsCard } from "./ActionsCard"
 
 export const CardsTable = () => {
     const dispatch = useAppDispatch()
     const status = useAppSelector(state => state.app.status)
     const search = useAppSelector(state => state.search)
-    const cards = useAppSelector(state => state.card)
+    const cards = useAppSelector(state => state.cards)
 
 
     function renderRating(params: GridRenderCellParams<number>) {
-        return <Rating readOnly value={params.value}/>;
+        return <Rating readOnly value={params.value} />;
     }
 
     const columns: GridColDef[] = [
@@ -35,7 +35,7 @@ export const CardsTable = () => {
         {
             field: 'lastUpdated',
             type: 'dateTime',
-            valueGetter: ({value}) => value && new Date(value),
+            valueGetter: ({ value }) => value && new Date(value),
             headerName: 'Last Updated',
             flex: 2,
             minWidth: 100,
@@ -65,7 +65,7 @@ export const CardsTable = () => {
             headerAlign: 'center',
             cellClassName: 'super-app-theme--cell',
             renderCell: (cellValues: any) => {
-                return <ActionsCard cellValues={cellValues}/>
+                return <ActionsCard cellValues={cellValues} />
             }
         }
     ];
@@ -81,10 +81,10 @@ export const CardsTable = () => {
         }))
 
     const handleSortModelChange = (sortModel: GridSortModel) => {
-        dispatch(setSortProductsAC((sortModel[0].sort == "asc" ? 1 : 0) + sortModel[0].field))
+        dispatch(setSortProductsAC((sortModel[0].sort === "asc" ? 1 : 0) + sortModel[0].field))
     }
 
-    return <Box sx={{height: 372, width: '100%'}}>
+    return <Box sx={{ height: 372, width: '100%' }}>
         <DataGrid
             onSortModelChange={handleSortModelChange}
             sortingMode="server"
@@ -103,8 +103,8 @@ export const CardsTable = () => {
             disableColumnMenu
             disableSelectionOnClick
             sx={{
-                '& .MuiDataGrid-columnHeaders': {backgroundColor: "rgba(86,164,31,0.12)"},
-                '& .super-app-theme--cell': {display: 'flex', justifyContent: 'center',},
+                '& .MuiDataGrid-columnHeaders': { backgroundColor: "rgba(86,164,31,0.12)" },
+                '& .super-app-theme--cell': { display: 'flex', justifyContent: 'center', },
             }}
         />
     </Box>
