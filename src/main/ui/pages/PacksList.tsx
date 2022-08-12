@@ -100,7 +100,14 @@ export const PacksList = () => {
             minWidth: 150,
             headerAlign: 'center',
             headerClassName: 'super-app-theme--header',
-            cellClassName: 'super-app-theme--cell'
+            cellClassName: 'super-app-theme--cell',
+            renderCell: (cellValues: any) => {
+                return <Grid>
+                    <NavLink to={PATH.CARD + cellValues.id}>
+                        {cellValues.value}
+                    </NavLink>
+                </Grid>
+            }
         },
         {
             field: 'cards',
@@ -145,7 +152,7 @@ export const PacksList = () => {
             cellClassName: 'super-app-theme--cell',
             renderCell: (cellValues: any) => {
                 return <Grid>
-                    <NavLink to={PATH.CARD + cellValues.id}>
+                    <NavLink to={PATH.LEARN + cellValues.id}>
                         <IconButton
                             disabled={status === 'loading'}
                             color="primary">

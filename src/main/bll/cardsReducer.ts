@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { CardType, packsAPI } from "../api/api";
-import { AppDispatchType, RootStateType } from "./store";
+import { AppDispatchType, AppThunkType, RootStateType } from "./store";
 import { errorTC, setAppStatusAC } from "./appReducer";
 
 const initialState: InitialStateType = {
@@ -25,7 +25,7 @@ export type GetStore = () => RootStateType
 
 
 // thunks
-export const getCardTC = (cardsPack_id: string) => (dispatch: AppDispatchType, getStore: GetStore) => {
+export const getCardTC = (cardsPack_id: string | undefined) => (dispatch: AppDispatchType, getStore: GetStore) => {
 	dispatch(setAppStatusAC('loading'))
 	console.log(cardsPack_id)
 	const { searchName, page, pageCount } = getStore().search
@@ -71,6 +71,18 @@ export const updateCardTC = (cardsPack_id: string, card_id: string, question?: s
 	packsAPI.updateCard(card_id, question, answer)
 		.then(() => {
 			dispatch(getCardTC(cardsPack_id))
+			dispatch(setAppStatusAC('succeeded'))
+		})
+		.catch((e: AxiosError<{ error: string }>) => {
+			dispatch(errorTC(e))
+		})
+}
+
+export const updateGradeTC = (grade: number, card_id: string):AppThunkType => (dispatch) => {
+	dispatch(setAppStatusAC('loading'))
+	packsAPI.updateGrade(grade, card_id)
+		.then(() => {
+			// dispatch(getCardTC(cardsPack_id))
 			dispatch(setAppStatusAC('succeeded'))
 		})
 		.catch((e: AxiosError<{ error: string }>) => {

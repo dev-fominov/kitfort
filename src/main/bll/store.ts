@@ -16,7 +16,7 @@ export const rootReducer = combineReducers({
     register: registerReducer,
     resetPassword: resetPasswordReducer,
     packs: packsReducer,
-    card: cardsReducer,
+    cards: cardsReducer,
     search: searchReducer
 })
 

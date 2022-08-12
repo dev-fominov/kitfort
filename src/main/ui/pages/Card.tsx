@@ -50,7 +50,7 @@ export const Card = () => {
     const profileID = useAppSelector(state => state.profile.profile._id)
 
     const pack_id = window.location.hash.split('/').slice(-1)[0]
-    const cards = useAppSelector(state => state.card)
+    const cards = useAppSelector(state => state.cards)
 
     useEffect(() => {
         dispatch(getCardTC(pack_id))
