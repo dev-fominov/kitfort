@@ -8,6 +8,7 @@ import {ProfileActionsType, profileReducer} from "./profileReducer";
 import {packsReducer, PacksActionsType} from './packsReducer';
 import {searchReducer, SearchActionsType} from './searchReducer';
 import { CardsActionsType, cardsReducer } from './cardsReducer';
+// import { CardsActionsType, cardsReducer } from './cardsReducer';
 
 export const rootReducer = combineReducers({
     auth: authReducer,

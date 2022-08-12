@@ -82,7 +82,7 @@ export const Table = () => {
     };
 
     const handleSortModelChange = (sortModel: GridSortModel) => {
-        dispatch(setSortProductsAC((sortModel[0].sort == "asc" ? 1 : 0) + sortModel[0].field))
+        dispatch(setSortProductsAC((sortModel[0].sort === "asc" ? 1 : 0) + sortModel[0].field))
     }
 
     return <Box sx={{height: 372, width: '100%'}}>

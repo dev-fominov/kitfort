@@ -1,7 +1,6 @@
 import {Grid, ToggleButton, ToggleButtonGroup, Typography} from "@mui/material"
 import {useAppDispatch, useAppSelector} from "../../../../bll/hooks"
-import {SyntheticEvent, useState} from "react"
-import {setMinMaxAC, setProfileIDAC} from "../../../../bll/searchReducer"
+import {setProfileIDAC} from "../../../../bll/searchReducer"
 
 export const CustomToggleButton = () => {
     const dispatch = useAppDispatch()

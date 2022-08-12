@@ -1,7 +1,7 @@
 import {Grid, InputBase, styled, Typography} from "@mui/material"
 import {useAppDispatch, useAppSelector, useDebounce, useIsFirstRender} from "../../../../bll/hooks"
-import {ChangeEvent, SyntheticEvent, useEffect, useState} from "react"
-import {setMinMaxAC, setSearchNameAC} from "../../../../bll/searchReducer"
+import {ChangeEvent, useEffect, useState} from "react"
+import {setSearchNameAC} from "../../../../bll/searchReducer"
 import SearchIcon from '@mui/icons-material/Search';
 
 const Search = styled('div')(({theme}) => ({
