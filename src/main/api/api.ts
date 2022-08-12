@@ -43,27 +43,27 @@ export const packsAPI = {
         searchName?: string,
         page?: number,
         pageCount?: number,
-        sortProducts?: string,
+        sortPacks?: string,
         userId?: string) {
         return instance.get<GetPacksResponseType>(`cards/pack?`
             + (max ? `min=${min}&max=${max}&` : '')
             + (searchName ? `packName=${searchName}&` : '')
             + (page ? `page=${page}&` : '')
             + (pageCount ? `pageCount=${pageCount}&` : '')
-            + (sortProducts ? `sortProducts=${sortProducts}&` : '')
+            + (sortPacks ? `sortPacks=${sortPacks}&` : '')
             + (userId ? `user_id=${userId}&` : '')).then(res => res.data)
     },
-    addPack(name?: string) {
+    addPack(name?: string, privateValue?: boolean) {
         return instance.post(`cards/pack`, {
             cardsPack:
-                { name: name || 'new test pack', deckCover: '', private: false }
+                {name, deckCover: '', private: privateValue}
         })
     },
     deletePack(packId: string) {
         return instance.delete(`cards/pack?id=${packId}`)
     },
-    updatePack(packId: string, name?: string) {
-        return instance.put(`cards/pack`, { cardsPack: { _id: packId, name: name || 'no name' } })
+    updatePack(packId: string, name?: string, privateValue?: boolean) {
+        return instance.put(`cards/pack`, { cardsPack: { _id: packId, name,  private: privateValue} })
     },
     getCard(cardsPack_id: string, searchName?:string, page?: number, pageCount?: number) {
         return instance.get<GetCardsResponseType>(`cards/card?cardsPack_id=${cardsPack_id}`

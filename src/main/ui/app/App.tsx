@@ -4,9 +4,10 @@ import './App.css'
 import {initializeAppTC} from "../../bll/appReducer";
 import {useAppDispatch, useAppSelector} from "../../bll/hooks";
 import {CircularProgress} from "@mui/material";
-import {InfoSnackbar} from "../common/InfoSnackbar/InfoSnackbar";
+import {InfoSnackbar} from "../common/InfoSnackbar";
 import {HeaderMUI} from '../parts/HeaderMUI';
 import {NavLink} from 'react-router-dom';
+import {CustomizedDialogs} from '../common/CustomizedDialogs';
 
 export const App = () => {
     const dispatch = useAppDispatch()
@@ -28,7 +29,7 @@ export const App = () => {
                 <NavLink  to={PATH.RESET_PASSWORD}>Reset Password</NavLink>
                 <NavLink  to={PATH.NEW_PASSWORD}>New password</NavLink>
                 <NavLink  to={PATH.PACKS_LIST}>Packs List</NavLink>
-                <NavLink  to={'/card/62ec3ec7a756e14ba0675d7c'}>Card</NavLink>
+                <NavLink  to={PATH.CARD}>Card</NavLink>
                 <NavLink  to={PATH.ADD_NEW_CARD}>Add new card</NavLink>
             </div>
             {!isInitialized

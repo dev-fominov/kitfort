@@ -1,27 +1,28 @@
 import {AxiosError} from 'axios';
 import {packsAPI, PackType} from "../api/api";
 import {AppActionsType, AppDispatchType, RootStateType} from "./store";
-import {errorTC, setAppStatusAC} from "./appReducer";
+import {errorTC, setAppOpenDiologsAC, setAppStatusAC} from "./appReducer";
 
 const initialState: InitialStateType = {
     cardPacks: [] as Array<PackType>,
     cardPacksTotalCount: 0,
-    packId: ''
+    packId: '',
+    packName: ''
 }
 
 export const packsReducer = (state: InitialStateType = initialState, action: AppActionsType): InitialStateType => {
     switch (action.type) {
         case'packs/SET-PACKS':
             return {...state, cardPacks: action.packs, cardPacksTotalCount: action.cardPacksTotalCount}
-        case'packs/SET-PACKID':
-            return {...state, packId: action.id}
+        case'packs/SET-PACK-ID-NAME':
+            return {...state, packId: action.id, packName: action.name}
         default:
             return state
     }
 }
 // actions
 export const setPacksAC = (packs: Array<PackType>, cardPacksTotalCount: number) => ({type: 'packs/SET-PACKS', packs, cardPacksTotalCount} as const)
-export const setPackIdAC = (id: string) => ({type: 'packs/SET-PACKID', id} as const)
+export const setPackNameIdAC = (id: string, name?: string) => ({type: 'packs/SET-PACK-ID-NAME', id, name} as const)
 export type GetStore = () => RootStateType
 
 
@@ -39,9 +40,10 @@ export const getPacksTC = () => (dispatch: AppDispatchType, getStore: GetStore) 
         })
 }
 
-export const addPackTC = (name?: string) => (dispatch: AppDispatchType) => {
+export const addPackTC = (name?: string, privateValue?: boolean) => (dispatch: AppDispatchType) => {
     dispatch(setAppStatusAC('loadingDataGrid'))
-    packsAPI.addPack(name)
+    dispatch(setAppOpenDiologsAC('close'))
+    packsAPI.addPack(name, privateValue)
         .then(() => {
             dispatch(getPacksTC())
             dispatch(setAppStatusAC('succeeded'))
@@ -52,6 +54,7 @@ export const addPackTC = (name?: string) => (dispatch: AppDispatchType) => {
 }
 export const deletePackTC = (packId: string) => (dispatch: AppDispatchType) => {
     dispatch(setAppStatusAC('loadingDataGrid'))
+    dispatch(setAppOpenDiologsAC('close'))
     packsAPI.deletePack(packId)
         .then(() => {
             dispatch(getPacksTC())
@@ -62,9 +65,10 @@ export const deletePackTC = (packId: string) => (dispatch: AppDispatchType) => {
         })
 }
 
-export const updatePackTC = (packId: string, name: string) => (dispatch: AppDispatchType) => {
+export const updatePackTC = (packId: string, name?: string, privateValue?: boolean) => (dispatch: AppDispatchType) => {
     dispatch(setAppStatusAC('loadingDataGrid'))
-    packsAPI.updatePack(packId, name)
+    dispatch(setAppOpenDiologsAC('close'))
+    packsAPI.updatePack(packId, name, privateValue)
         .then(() => {
             dispatch(getPacksTC())
             dispatch(setAppStatusAC('succeeded'))
@@ -76,10 +80,11 @@ export const updatePackTC = (packId: string, name: string) => (dispatch: AppDisp
 
 
 // types
-export type PacksActionsType = ReturnType<typeof setPacksAC> | ReturnType<typeof setPackIdAC>
+export type PacksActionsType = ReturnType<typeof setPacksAC> | ReturnType<typeof setPackNameIdAC>
 type InitialStateType = {
     cardPacks:  Array<PackType>,
     cardPacksTotalCount: number
     packId: string
+    packName?: string
 }
 

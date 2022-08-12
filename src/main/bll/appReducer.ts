@@ -9,7 +9,8 @@ const initialState: InitialStateType = {
     status: 'idle',
     error: null,
     info: null,
-    isInitialized: false
+    isInitialized: false,
+    isOpenDiologs: 'close',
 }
 
 export const appReducer = (state: InitialStateType = initialState, action: AppActionsType): InitialStateType => {
@@ -22,6 +23,8 @@ export const appReducer = (state: InitialStateType = initialState, action: AppAc
             return {...state, info: action.info}
         case 'APP/SET-IS-INITIALIED':
             return {...state, isInitialized: action.value}
+        case 'APP/SET-IS-DIOLOGS':
+            return {...state, isOpenDiologs: action.diologs}
         default:
             return {...state}
     }
@@ -32,7 +35,7 @@ export const setAppErrorAC = (error: string | null) => ({type: 'APP/SET-ERROR', 
 export const setAppInfoAC = (info: string | null) => ({type: 'APP/SET-INFO', info} as const)
 export const setAppStatusAC = (status: RequestStatusType) => ({type: 'APP/SET-STATUS', status} as const)
 export const setAppInitializedAC = (value: boolean) => ({type: 'APP/SET-IS-INITIALIED', value} as const)
-
+export const setAppOpenDiologsAC = (diologs: string) => ({type: 'APP/SET-IS-DIOLOGS', diologs} as const)
 // thunks
 export const initializeAppTC = (): AppThunkType => (dispatch: AppDispatchType) => {
     authAPI.me()
@@ -64,14 +67,18 @@ export type InitialStateType = {
     error: string | null
     info: string | null
     // true когда приложение проинициализировалось (проверили юзера, настройки получили и т.д.)
-    isInitialized: boolean
+    isInitialized: boolean,
+    isOpenDiologs: string
 }
 export type RequestStatusType = 'idle' | 'loading' | 'loadingDataGrid' | 'succeeded' | 'failed'
 export type SetAppErrorActionType = ReturnType<typeof setAppErrorAC>
 export type SetAppInfoActionType = ReturnType<typeof setAppInfoAC>
 export type SetAppStatusActionType = ReturnType<typeof setAppStatusAC>
+export type SetAppOpenDiologsActionType = ReturnType<typeof setAppOpenDiologsAC>
 export type ActionsTypeApp =
     | SetAppErrorActionType
     | SetAppStatusActionType
     | SetAppInfoActionType
+    | SetAppOpenDiologsActionType
     | ReturnType<typeof setAppInitializedAC>
+
