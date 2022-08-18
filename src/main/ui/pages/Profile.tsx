@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from 'react'
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { PATH } from "./Pages";
 import { useAppDispatch, useAppSelector } from "../../bll/hooks";
 import s from "./styles/Profile.module.css"
@@ -7,7 +7,6 @@ import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import edit from "../assets/img/profile/edit.svg"
-import arrow from "../assets/img/profile/back_arrow.svg"
 import { setNewAvatarTC, setNewNameTC } from "../../bll/profileReducer";
 import { logoutTC } from "../../bll/authReducer";
 import { Avatar, IconButton } from '@mui/material';
@@ -15,6 +14,7 @@ import { PhotoCamera } from "@mui/icons-material";
 
 
 export const Profile = () => {
+    
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const name = useAppSelector(state => state.profile.profile.name)
     const email = useAppSelector(state => state.profile.profile.email)
@@ -67,12 +67,7 @@ export const Profile = () => {
     }
     return (
         <div className={s.profile}>
-            <div className={s.back_arrow}>
-                <a href={"#"}>
-                    <img src={arrow} alt="arrow" />
-                    <span className={s.back_title}>Back to Packs List</span>
-                </a>
-            </div>
+            
             <Paper elevation={3} style={{ width: "413px", margin: "0 auto" }}>
                 <div className={s.paper}>
                     <h3 className={s.profile_info}>Personal information</h3>
